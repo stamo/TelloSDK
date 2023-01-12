@@ -1,0 +1,362 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TelloSDK.Pilot</name>
+    </assembly>
+    <members>
+        <member name="T:TelloSDK.Pilot.Constants.TelloSDKCommands">
+            <summary>
+            SDK commands
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands">
+            <summary>
+            SDK Control commands
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.InitializeSDK">
+            <summary>
+            Enter SDK mode
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Contracts.ITelloCommandClient">
+            <summary>
+            Tello SDK command executor
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloCommandClient.ExecuteCommand(System.String)">
+            <summary>
+            Executes drone command
+            </summary>
+            <param name="command">Command to execute</param>
+            <returns>Command result</returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloCommandClient.IsInCommandMode">
+            <summary>
+            Checks if Tello SDK is initialized
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloCommandClient.InitializeCommandSDK">
+            <summary>
+            Initializes SDK
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloCommandClient.DisconnectCommandSDK">
+            <summary>
+            Disposes SDK client
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.client">
+            <summary>
+            UDP Cllient to send commands to Tello
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.commandEndpoint">
+            <summary>
+            Tello command endpoint
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.remoteIpEndPoint">
+            <summary>
+            Remote endpoint to be used for Tello responses
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.isInCommandMode">
+            <summary>
+            Indicates whether drone is in SDK mode 
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{TelloSDK.Infrastructure.Models.TelloOptions})">
+            <summary>
+            Initializes Tello Pilot
+            </summary>
+            <param name="optionsAccessor">Tello pilot options accessor</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.ExecuteCommand(System.String)">
+            <summary>
+            Executes drone command
+            </summary>
+            <param name="command">Command to execute</param>
+            <returns>Command result</returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.IsInCommandMode">
+            <summary>
+            Checks if Tello SDK is initialized
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.InitializeCommandSDK">
+            <summary>
+            Initializes SDK
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.DisconnectCommandSDK">
+            <summary>
+            Disposes SDK client
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Contracts.IPilot">
+            <summary>
+            Tello pilot
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Ignition">
+            <summary>
+            Prepare drone for flight
+            </summary>
+            <returns>OK if ready to fly, 
+            ERROR if ignition procedyre failed</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.TakeOff">
+            <summary>
+            Auto takeoff
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Land">
+            <summary>
+            Auto landing
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.StreamOn">
+            <summary>
+            Video stream ON
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.StreamOff">
+            <summary>
+            Video stream OFF
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Emergency">
+            <summary>
+            Stop motors immediately
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Up(System.Int32)">
+            <summary>
+            Ascend to {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Down(System.Int32)">
+            <summary>
+             Descend to {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Left(System.Int32)">
+            <summary>
+            Fly left for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Right(System.Int32)">
+            <summary>
+            Fly right for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Forward(System.Int32)">
+            <summary>
+            Fly forward for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Backward(System.Int32)">
+            <summary>
+            Fly backward for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.TurnClockwise(System.Int32)">
+            <summary>
+            Rotate {degrees} degrees clockwise
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.TurnCounterClockwise(System.Int32)">
+            <summary>
+            Rotate {degrees} degrees counterclockwise
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Flip(TelloSDK.Enumerations.Direction)">
+            <summary>
+            Flip in {direction} direction
+            </summary>
+            <param name="direction">Direction to flip in</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Go(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fly to {x} {y} {z} at {speed} (cm/s)
+            </summary>
+            <param name="x">Position X, range(-500, 500)</param>
+            <param name="y">Position Y, range(-500, 500)</param>
+            <param name="z">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Stop">
+            <summary>
+            Hovers in the air
+            </summary>
+            <remarks>Works at any time</remarks>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.Curve(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fly at a curve according to the two given 
+            coordinates at {speed} (cm/s)
+            </summary>
+            <param name="x1">Position X, range(-500, 500)</param>
+            <param name="y1">Position Y, range(-500, 500)</param>
+            <param name="z1">Position Z, range(-500, 500)</param>
+            <param name="x2">Position X, range(-500, 500)</param>
+            <param name="y2">Position Y, range(-500, 500)</param>
+            <param name="z2">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 60)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.SetSpeed(System.Int32)">
+            <summary>
+            Set speed to {speed} cm/s
+            </summary>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.SetWiFi(System.String,System.String)">
+            <summary>
+            Set Wi-Fi ssid and password
+            </summary>
+            <param name="ssid">updated Wi-Fi name</param>
+            <param name="password">updated Wi-Fi password</param>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.SetAccessPoint(System.String,System.String)">
+            <summary>
+            Set the Tello to station mode, and connect to a
+            new access point with the access point’s ssid and password
+            </summary>
+            <param name="ssid">updated Wi-Fi name</param>
+            <param name="password">updated Wi-Fi password</param>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.GetSpeed">
+            <summary>
+            Obtain current speed (cm/s)
+            </summary>
+            <returns>range (10, 100)</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.GetWiFi">
+            <summary>
+            Obtain Wi-Fi SNR
+            </summary>
+            <returns>SNR</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.GetBattery">
+            <summary>
+            Obtain current battery percentage
+            </summary>
+            <returns>range(0, 100)</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.GetTime">
+            <summary>
+            Obtain current flight time
+            </summary>
+            <returns>flight time</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.GetSdk">
+            <summary>
+            Obtain the Tello SDK version
+            </summary>
+            <returns>SDK version</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.GetSerialNumber">
+            <summary>
+            Obtain the Tello serial number
+            </summary>
+            <returns>serial number</returns>
+        </member>
+        <member name="M:TelloSDK.Contracts.IPilot.EnginesOff">
+            <summary>
+            Disconnects Tello
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Enumerations.Direction">
+            <summary>
+            Flip directions
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Models.TelloActionResult">
+            <summary>
+            Result of sdk command
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Models.TelloActionResult.Succeeded">
+            <summary>
+            If command succeded
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Models.TelloActionResult.Message">
+            <summary>
+            Result message
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Services.Pilot">
+            <summary>
+            Tello pilot
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Services.Pilot.commandClient">
+            <summary>
+            SDK Client to comunicate with drone
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.EnginesOff">
+            <summary>
+            Disconnects from drone
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Ignition">
+            <summary>
+            Prepare drone for flight
+            </summary>
+            <returns>OK if ready to fly, 
+            ERROR if ignition procedyre failed</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.CreateResult(System.Boolean)">
+            <summary>
+            Initializes Action result object
+            </summary>
+            <param name="forSuccess">Result marked as success or failure</param>
+            <returns>TelloActionResult</returns>
+        </member>
+    </members>
+</doc>
