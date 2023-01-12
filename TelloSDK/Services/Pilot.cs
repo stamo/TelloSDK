@@ -6,8 +6,10 @@ using System.Net.Sockets;
 using System.Text;
 using TelloSDK.Contracts;
 using TelloSDK.Enumerations;
+using TelloSDK.Infrastructure.Constants;
 using TelloSDK.Models;
 using TelloSDK.Pilot.Contracts;
+using static TelloSDK.Pilot.Constants.TelloSDKCommands;
 
 namespace TelloSDK.Services
 {
@@ -26,9 +28,22 @@ namespace TelloSDK.Services
             commandClient = _commandClient;
         }
 
+        /// <summary>
+        /// Fly backward for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Backward(int distance)
         {
-            throw new NotImplementedException();
+            if (distance > 500 || distance < 20)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.Back, distance));
         }
 
         public TelloActionResult Curve(int x1, int y1, int z1, int x2, int y2, int z2, int speed)
@@ -36,14 +51,31 @@ namespace TelloSDK.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        ///  Descend to {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Down(int distance)
         {
-            throw new NotImplementedException();
+            if (distance > 500 || distance < 20)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.Down, distance));
         }
 
+        /// <summary>
+        /// Stop motors immediately
+        /// </summary>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult Emergency()
         {
-            throw new NotImplementedException();
+            return ExecuteAction(ControlCommands.Emergency);
         }
 
         /// <summary>
@@ -59,9 +91,22 @@ namespace TelloSDK.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Fly forward for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Forward(int distance)
         {
-            throw new NotImplementedException();
+            if (distance > 500 || distance < 20)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.Forward, distance));
         }
 
         public TelloActionResult GetBattery()
@@ -109,19 +154,49 @@ namespace TelloSDK.Services
             return commandClient.InitializeCommandSDK();
         }
 
+        /// <summary>
+        /// Auto landing
+        /// </summary>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult Land()
         {
-            throw new NotImplementedException();
+            return ExecuteAction(ControlCommands.Land);
         }
 
+        /// <summary>
+        /// Fly left for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Left(int distance)
         {
-            throw new NotImplementedException();
+            if (distance > 500 || distance < 20)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.Left, distance));
         }
 
+        /// <summary>
+        /// Fly right for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Right(int distance)
         {
-            throw new NotImplementedException();
+            if (distance > 500 || distance < 20)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.Right, distance));
         }
 
         public TelloActionResult SetAccessPoint(string ssid, string password)
@@ -144,19 +219,31 @@ namespace TelloSDK.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Video stream OFF
+        /// </summary>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult StreamOff()
         {
-            throw new NotImplementedException();
+            return ExecuteAction(ControlCommands.VideoStreamOff);
         }
 
+        /// <summary>
+        /// Video stream ON
+        /// </summary>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult StreamOn()
         {
-            throw new NotImplementedException();
+            return ExecuteAction(ControlCommands.VideoStreamOn);
         }
 
+        /// <summary>
+        /// Auto takeoff
+        /// </summary>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult TakeOff()
         {
-            throw new NotImplementedException();
+            return ExecuteAction(ControlCommands.TakeOff);
         }
 
         public TelloActionResult TurnClockwise(int degrees)
@@ -169,9 +256,22 @@ namespace TelloSDK.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Ascend to {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Up(int distance)
         {
-            throw new NotImplementedException();
+            if (distance > 500 || distance < 20)
+            {
+                return new TelloActionResult(
+                    false, 
+                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.Up, distance));
         }
 
         /// <summary>
@@ -186,6 +286,37 @@ namespace TelloSDK.Services
                 Succeeded = forSuccess,
                 Message = forSuccess ? "OK" : "ERROR"
             };
+        }
+
+        /// <summary>
+        /// Checking if initialized and initializes if not
+        /// </summary>
+        private void CheckIfInCommandMode()
+        {
+            if (!commandClient.IsInCommandMode())
+            {
+                Ignition();
+            }
+        }
+
+        /// <summary>
+        /// Executes desired action
+        /// </summary>
+        /// <param name="action">Action to execute</param>
+        /// <returns></returns>
+        private TelloActionResult ExecuteAction(string action)
+        {
+            CheckIfInCommandMode();
+
+            var result = CreateResult(true);
+            result.Message = commandClient.ExecuteCommand(action);
+
+            if (result.Message == TelloResponse.Failure)
+            {
+                result.Succeeded = false;
+            }
+
+            return result;
         }
     }
 }

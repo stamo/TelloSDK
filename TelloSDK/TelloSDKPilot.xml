@@ -19,6 +19,72 @@
             Enter SDK mode
             </summary>
         </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.TakeOff">
+            <summary>
+            Auto takeoff
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Land">
+            <summary>
+            Auto landing
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.VideoStreamOn">
+            <summary>
+            Enable video stream
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.VideoStreamOff">
+            <summary>
+            Disable video stream
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Emergency">
+            <summary>
+            Stop motors immediately
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Up">
+            <summary>
+            Ascend to “x” cm
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Down">
+            <summary>
+            Descend to “x” cm
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Left">
+            <summary>
+            Fly left for “x” cm
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Right">
+            <summary>
+            Fly right for “x” cm
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Forward">
+            <summary>
+            Fly forward for “x” cm
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Back">
+            <summary>
+            Fly backward for “x” cm
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages">
+            <summary>
+            Commands Error messages
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages.DistanceOutOfRange">
+            <summary>
+            Distance out of range error
+            Expects two parameters - lower and upper boundary 
+            </summary>
+        </member>
         <member name="T:TelloSDK.Pilot.Contracts.ITelloCommandClient">
             <summary>
             Tello SDK command executor
@@ -329,6 +395,18 @@
             Result message
             </summary>
         </member>
+        <member name="M:TelloSDK.Models.TelloActionResult.#ctor">
+            <summary>
+            Create empty response
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Models.TelloActionResult.#ctor(System.Boolean,System.String)">
+            <summary>
+            Create initialized response
+            </summary>
+            <param name="succeeded">Shows if result succeeded</param>
+            <param name="message">Status message</param>
+        </member>
         <member name="T:TelloSDK.Services.Pilot">
             <summary>
             Tello pilot
@@ -339,10 +417,40 @@
             SDK Client to comunicate with drone
             </summary>
         </member>
+        <member name="M:TelloSDK.Services.Pilot.Backward(System.Int32)">
+            <summary>
+            Fly backward for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Down(System.Int32)">
+            <summary>
+             Descend to {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Emergency">
+            <summary>
+            Stop motors immediately
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
         <member name="M:TelloSDK.Services.Pilot.EnginesOff">
             <summary>
             Disconnects from drone
             </summary>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Forward(System.Int32)">
+            <summary>
+            Fly forward for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
         </member>
         <member name="M:TelloSDK.Services.Pilot.Ignition">
             <summary>
@@ -351,12 +459,72 @@
             <returns>OK if ready to fly, 
             ERROR if ignition procedyre failed</returns>
         </member>
+        <member name="M:TelloSDK.Services.Pilot.Land">
+            <summary>
+            Auto landing
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Left(System.Int32)">
+            <summary>
+            Fly left for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Right(System.Int32)">
+            <summary>
+            Fly right for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.StreamOff">
+            <summary>
+            Video stream OFF
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.StreamOn">
+            <summary>
+            Video stream ON
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.TakeOff">
+            <summary>
+            Auto takeoff
+            </summary>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Up(System.Int32)">
+            <summary>
+            Ascend to {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
         <member name="M:TelloSDK.Services.Pilot.CreateResult(System.Boolean)">
             <summary>
             Initializes Action result object
             </summary>
             <param name="forSuccess">Result marked as success or failure</param>
             <returns>TelloActionResult</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.CheckIfInCommandMode">
+            <summary>
+            Checking if initialized and initializes if not
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.ExecuteAction(System.String)">
+            <summary>
+            Executes desired action
+            </summary>
+            <param name="action">Action to execute</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

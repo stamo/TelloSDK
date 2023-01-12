@@ -14,5 +14,22 @@
         /// Result message
         /// </summary>
         public string? Message { get; set; }
+
+        /// <summary>
+        /// Create empty response
+        /// </summary>
+        public TelloActionResult()
+        {}
+
+        /// <summary>
+        /// Create initialized response
+        /// </summary>
+        /// <param name="succeeded">Shows if result succeeded</param>
+        /// <param name="message">Status message</param>
+        public TelloActionResult(bool succeeded, string message)
+        {
+            Succeeded = succeeded;
+            Message = message;
+        }
     }
 }
