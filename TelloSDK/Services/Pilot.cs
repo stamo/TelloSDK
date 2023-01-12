@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
+﻿using System.Text;
 using TelloSDK.Contracts;
 using TelloSDK.Enumerations;
 using TelloSDK.Infrastructure.Constants;
@@ -23,6 +18,10 @@ namespace TelloSDK.Services
         /// </summary>
         private readonly ITelloCommandClient commandClient;
 
+        /// <summary>
+        /// Tello pilot
+        /// </summary>
+        /// <param name="_commandClient">Client to execute commands</param>
         public Pilot(ITelloCommandClient _commandClient)
         {
             commandClient = _commandClient;
@@ -46,9 +45,71 @@ namespace TelloSDK.Services
             return ExecuteAction(string.Format(ControlCommands.Back, distance));
         }
 
+        /// <summary>
+        /// Fly at a curve according to the two given 
+        /// coordinates at {speed} (cm/s)
+        /// </summary>
+        /// <param name="x1">Position X, range(-500, 500)</param>
+        /// <param name="y1">Position Y, range(-500, 500)</param>
+        /// <param name="z1">Position Z, range(-500, 500)</param>
+        /// <param name="x2">Position X, range(-500, 500)</param>
+        /// <param name="y2">Position Y, range(-500, 500)</param>
+        /// <param name="z2">Position Z, range(-500, 500)</param>
+        /// <param name="speed">Speed in (cm/s), range(10, 60)</param>
+        /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Curve(int x1, int y1, int z1, int x2, int y2, int z2, int speed)
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = string.Empty;
+            StringBuilder sb = new StringBuilder();
+
+            if (x1 > 500 || x1 < -500 || x2 > 500 || x2 < -500)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, -500, 500));
+            };
+
+            if (y1 > 500 || y1 < -500 || y2 > 500 || y2 < -500)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, -500, 500));
+            };
+
+            if (z1 > 500 || z1 < -500 || z2 > 500 || z2 < -500)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, -500, 500));
+            };
+
+            if (speed > 100 || speed < 10)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
+            };
+
+            if (((x1 > -20 && x1 < 20) &&
+                (y1 > -20 && y1 < 20) &&
+                (z1 > -20 && z1 < 20)) ||
+                ((x2 > -20 && x2 < 20) &&
+                (y2 > -20 && y2 < 20) &&
+                (z2 > -20 && z2 < 20)))
+            {
+                result.Succeeded = false;
+                sb.AppendLine(CommandsErrorMessages.InvalidDimensions);
+            }
+
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string
+                    .Format(ControlCommands.Curve, x1, y1, z1, x2, y2, z2, speed));
+            }
+            else
+            {
+                result.Message = sb.ToString();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -86,9 +147,16 @@ namespace TelloSDK.Services
             commandClient.DisconnectCommandSDK();
         }
 
+        /// <summary>
+        /// Flip in {direction} direction
+        /// </summary>
+        /// <param name="direction">Direction to flip in</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Flip(Direction direction)
         {
-            throw new NotImplementedException();
+            return ExecuteAction(string.Format(
+                ControlCommands.Flip, 
+                ControlCommands.GetFlipDirection(direction)));
         }
 
         /// <summary>
@@ -109,39 +177,135 @@ namespace TelloSDK.Services
             return ExecuteAction(string.Format(ControlCommands.Forward, distance));
         }
 
+        /// <summary>
+        /// Obtain current battery percentage
+        /// </summary>
+        /// <returns>range(0, 100)</returns>
         public TelloActionResult GetBattery()
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = commandClient.ExecuteCommand(ReadCommands.GetBattery);
+
+            return result;
         }
 
+        /// <summary>
+        /// Obtain the Tello SDK version
+        /// </summary>
+        /// <returns>SDK version</returns>
         public TelloActionResult GetSdk()
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = commandClient.ExecuteCommand(ReadCommands.GetSDKVersion);
+
+            return result;
         }
 
+        /// <summary>
+        /// Obtain the Tello serial number
+        /// </summary>
+        /// <returns>serial number</returns>
         public TelloActionResult GetSerialNumber()
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = commandClient.ExecuteCommand(ReadCommands.GetSerialNumber);
+
+            return result;
         }
 
+        /// <summary>
+        /// Obtain current speed (cm/s)
+        /// </summary>
+        /// <returns>range (10, 100)</returns>
         public TelloActionResult GetSpeed()
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = commandClient.ExecuteCommand(ReadCommands.GetSpeed);
+
+            return result;
         }
 
+        /// <summary>
+        /// Obtain current flight time
+        /// </summary>
+        /// <returns>flight time</returns>
         public TelloActionResult GetTime()
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = commandClient.ExecuteCommand(ReadCommands.GetFlightTime);
+
+            return result;
         }
 
+        /// <summary>
+        /// Obtain Wi-Fi SNR
+        /// </summary>
+        /// <returns>SNR</returns>
         public TelloActionResult GetWiFi()
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = commandClient.ExecuteCommand(ReadCommands.GetWiFi);
+
+            return result;
         }
 
+        /// <summary>
+        /// Fly to {x} {y} {z} at {speed} (cm/s)
+        /// </summary>
+        /// <param name="x">Position X, range(-500, 500)</param>
+        /// <param name="y">Position Y, range(-500, 500)</param>
+        /// <param name="z">Position Z, range(-500, 500)</param>
+        /// <param name="speed">Speed in (cm/s), range(10, 100)</param>
+        /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Go(int x, int y, int z, int speed)
         {
-            throw new NotImplementedException();
+            var result = CreateResult(true);
+            result.Message = string.Empty;
+            StringBuilder sb = new StringBuilder();
+
+            if (x > 500 || x < -500)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, -500, 500));
+            };
+
+            if (y > 500 || y < -500)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, -500, 500));
+            };
+
+            if (z > 500 || z < -500)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, -500, 500));
+            };
+
+            if (speed > 100 || speed < 10)
+            {
+                result.Succeeded = false;
+                sb.AppendLine(string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
+            };
+
+            if ((x > -20 && x < 20) &&
+                (y > -20 && y < 20) &&
+                (z > -20 && z < 20))
+            {
+                result.Succeeded = false;
+                sb.AppendLine(CommandsErrorMessages.InvalidDimensions);
+            }
+
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.Go, x, y, z, speed));
+            }
+            else
+            {
+                result.Message = sb.ToString();
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -199,24 +363,54 @@ namespace TelloSDK.Services
             return ExecuteAction(string.Format(ControlCommands.Right, distance));
         }
 
+        /// <summary>
+        /// Set the Tello to station mode, and connect to a
+        /// new access point with the access point’s ssid and password
+        /// </summary>
+        /// <param name="ssid">updated Wi-Fi name</param>
+        /// <param name="password">updated Wi-Fi password</param>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult SetAccessPoint(string ssid, string password)
         {
-            throw new NotImplementedException();
+            return ExecuteAction(string.Format(SetCommands.AccessPoint, ssid, password));
         }
 
+        /// <summary>
+        /// Set speed to {speed} cm/s
+        /// </summary>
+        /// <param name="speed">Speed in (cm/s), range(10, 100)</param>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult SetSpeed(int speed)
         {
-            throw new NotImplementedException();
+            if (speed > 100 || speed < 10)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
+            };
+
+            return ExecuteAction(string.Format(SetCommands.Speed, speed));
         }
 
+        /// <summary>
+        /// Set Wi-Fi ssid and password
+        /// </summary>
+        /// <param name="ssid">updated Wi-Fi name</param>
+        /// <param name="password">updated Wi-Fi password</param>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult SetWiFi(string ssid, string password)
         {
-            throw new NotImplementedException();
+            return ExecuteAction(string.Format(SetCommands.WiFi, ssid, password));
         }
 
+        /// <summary>
+        /// Hovers in the air
+        /// </summary>
+        /// <remarks>Works at any time</remarks>
+        /// <returns>OK / ERROR</returns>
         public TelloActionResult Stop()
         {
-            throw new NotImplementedException();
+            return ExecuteAction(ControlCommands.Stop);
         }
 
         /// <summary>
@@ -246,14 +440,40 @@ namespace TelloSDK.Services
             return ExecuteAction(ControlCommands.TakeOff);
         }
 
+        /// <summary>
+        /// Rotate {degrees} degrees clockwise
+        /// </summary>
+        /// <param name="degrees">Degrees to rotate to
+        /// range(1, 360)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult TurnClockwise(int degrees)
         {
-            throw new NotImplementedException();
+            if (degrees > 360 || degrees < 1)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.DegreesOutOfRange, 1, 360));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.RotateClockwise, degrees));
         }
 
+        /// <summary>
+        /// Rotate {degrees} degrees counterclockwise
+        /// </summary>
+        /// <param name="degrees">Degrees to rotate to
+        /// range(1, 360)</param>
+        /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult TurnCounterClockwise(int degrees)
         {
-            throw new NotImplementedException();
+            if (degrees > 360 || degrees < 1)
+            {
+                return new TelloActionResult(
+                    false,
+                    string.Format(CommandsErrorMessages.DegreesOutOfRange, 1, 360));
+            };
+
+            return ExecuteAction(string.Format(ControlCommands.RotateCounterClockwise, degrees));
         }
 
         /// <summary>

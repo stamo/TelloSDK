@@ -74,6 +74,101 @@
             Fly backward for “x” cm
             </summary>
         </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.RotateClockwise">
+            <summary>
+            Rotate “x” degrees clockwise
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.RotateCounterClockwise">
+            <summary>
+            Rotate “x” degrees counterclockwise
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Flip">
+            <summary>
+            Flip in “x” direction
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.GetFlipDirection(TelloSDK.Enumerations.Direction)">
+            <summary>
+            Gets flip directio
+            </summary>
+            <param name="direction">Direction to flip</param>
+            <returns></returns>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Go">
+            <summary>
+            Fly to “x” “y” “z” at “speed” (cm/s)
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Stop">
+            <summary>
+            Hovers in the air
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ControlCommands.Curve">
+            <summary>
+            Fly at a curve according to the two given coordinates
+            at “speed” (cm/s)
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Constants.TelloSDKCommands.SetCommands">
+            <summary>
+            Tello SDK Set commands
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.SetCommands.Speed">
+            <summary>
+            Set speed to “x” cm/s
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.SetCommands.WiFi">
+            <summary>
+            Set Wi-Fi password
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.SetCommands.AccessPoint">
+            <summary>
+            Set the Tello to station mode, and connect to a
+            new access point with the access point’s ssid and
+            password.
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Constants.TelloSDKCommands.ReadCommands">
+            <summary>
+            Tello SDK Read commands
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ReadCommands.GetSpeed">
+            <summary>
+            Obtain current speed (cm/s)
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ReadCommands.GetBattery">
+            <summary>
+            Obtain current battery percentage
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ReadCommands.GetFlightTime">
+            <summary>
+            Obtain current flight time
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ReadCommands.GetWiFi">
+            <summary>
+            Obtain Wi-Fi SNR
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ReadCommands.GetSDKVersion">
+            <summary>
+            Obtain the Tello SDK version
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.ReadCommands.GetSerialNumber">
+            <summary>
+            Obtain the Tello serial number
+            </summary>
+        </member>
         <member name="T:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages">
             <summary>
             Commands Error messages
@@ -83,6 +178,41 @@
             <summary>
             Distance out of range error
             Expects two parameters - lower and upper boundary 
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages.DegreesOutOfRange">
+            <summary>
+            Degrees out of range error
+            Expects two parameters - lower and upper boundary 
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages.XDimensionOutOfRange">
+            <summary>
+            X Dimension out of range error
+            Expects two parameters - lower and upper boundary 
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages.YDimensionOutOfRange">
+            <summary>
+            Y Dimension out of range error
+            Expects two parameters - lower and upper boundary 
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages.ZDimensionOutOfRange">
+            <summary>
+            Z Dimension out of range error
+            Expects two parameters - lower and upper boundary 
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages.SpeedOutOfRange">
+            <summary>
+            Speed out of range error
+            Expects two parameters - lower and upper boundary 
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Constants.TelloSDKCommands.CommandsErrorMessages.InvalidDimensions">
+            <summary>
+            Invalid dimensions
             </summary>
         </member>
         <member name="T:TelloSDK.Pilot.Contracts.ITelloCommandClient">
@@ -417,12 +547,33 @@
             SDK Client to comunicate with drone
             </summary>
         </member>
+        <member name="M:TelloSDK.Services.Pilot.#ctor(TelloSDK.Pilot.Contracts.ITelloCommandClient)">
+            <summary>
+            Tello pilot
+            </summary>
+            <param name="_commandClient">Client to execute commands</param>
+        </member>
         <member name="M:TelloSDK.Services.Pilot.Backward(System.Int32)">
             <summary>
             Fly backward for {distance} cm
             </summary>
             <param name="distance">Distance in centimeters
             range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Curve(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fly at a curve according to the two given 
+            coordinates at {speed} (cm/s)
+            </summary>
+            <param name="x1">Position X, range(-500, 500)</param>
+            <param name="y1">Position Y, range(-500, 500)</param>
+            <param name="z1">Position Z, range(-500, 500)</param>
+            <param name="x2">Position X, range(-500, 500)</param>
+            <param name="y2">Position Y, range(-500, 500)</param>
+            <param name="z2">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 60)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
             <returns>OK / ERROR / INVALID PARAMETER</returns>
         </member>
         <member name="M:TelloSDK.Services.Pilot.Down(System.Int32)">
@@ -444,12 +595,66 @@
             Disconnects from drone
             </summary>
         </member>
+        <member name="M:TelloSDK.Services.Pilot.Flip(TelloSDK.Enumerations.Direction)">
+            <summary>
+            Flip in {direction} direction
+            </summary>
+            <param name="direction">Direction to flip in</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
         <member name="M:TelloSDK.Services.Pilot.Forward(System.Int32)">
             <summary>
             Fly forward for {distance} cm
             </summary>
             <param name="distance">Distance in centimeters
             range(20, 500)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.GetBattery">
+            <summary>
+            Obtain current battery percentage
+            </summary>
+            <returns>range(0, 100)</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.GetSdk">
+            <summary>
+            Obtain the Tello SDK version
+            </summary>
+            <returns>SDK version</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.GetSerialNumber">
+            <summary>
+            Obtain the Tello serial number
+            </summary>
+            <returns>serial number</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.GetSpeed">
+            <summary>
+            Obtain current speed (cm/s)
+            </summary>
+            <returns>range (10, 100)</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.GetTime">
+            <summary>
+            Obtain current flight time
+            </summary>
+            <returns>flight time</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.GetWiFi">
+            <summary>
+            Obtain Wi-Fi SNR
+            </summary>
+            <returns>SNR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Go(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fly to {x} {y} {z} at {speed} (cm/s)
+            </summary>
+            <param name="x">Position X, range(-500, 500)</param>
+            <param name="y">Position Y, range(-500, 500)</param>
+            <param name="z">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
             <returns>OK / ERROR / INVALID PARAMETER</returns>
         </member>
         <member name="M:TelloSDK.Services.Pilot.Ignition">
@@ -481,6 +686,37 @@
             range(20, 500)</param>
             <returns>OK / ERROR / INVALID PARAMETER</returns>
         </member>
+        <member name="M:TelloSDK.Services.Pilot.SetAccessPoint(System.String,System.String)">
+            <summary>
+            Set the Tello to station mode, and connect to a
+            new access point with the access point’s ssid and password
+            </summary>
+            <param name="ssid">updated Wi-Fi name</param>
+            <param name="password">updated Wi-Fi password</param>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.SetSpeed(System.Int32)">
+            <summary>
+            Set speed to {speed} cm/s
+            </summary>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.SetWiFi(System.String,System.String)">
+            <summary>
+            Set Wi-Fi ssid and password
+            </summary>
+            <param name="ssid">updated Wi-Fi name</param>
+            <param name="password">updated Wi-Fi password</param>
+            <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Stop">
+            <summary>
+            Hovers in the air
+            </summary>
+            <remarks>Works at any time</remarks>
+            <returns>OK / ERROR</returns>
+        </member>
         <member name="M:TelloSDK.Services.Pilot.StreamOff">
             <summary>
             Video stream OFF
@@ -498,6 +734,22 @@
             Auto takeoff
             </summary>
             <returns>OK / ERROR</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.TurnClockwise(System.Int32)">
+            <summary>
+            Rotate {degrees} degrees clockwise
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.TurnCounterClockwise(System.Int32)">
+            <summary>
+            Rotate {degrees} degrees counterclockwise
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+            <returns>OK / ERROR / INVALID PARAMETER</returns>
         </member>
         <member name="M:TelloSDK.Services.Pilot.Up(System.Int32)">
             <summary>
