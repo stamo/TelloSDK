@@ -13,4 +13,8 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TelloSDK.Infrastructure\TelloSDK.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

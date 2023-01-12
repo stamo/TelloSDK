@@ -3,12 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK", "TelloSDK\TelloSDK.csproj", "{F993B2E9-4E5A-40C2-97B1-619905909143}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelloSDK.Pilot", "TelloSDK\TelloSDK.Pilot.csproj", "{F993B2E9-4E5A-40C2-97B1-619905909143}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{FD1416C2-423B-4539-9365-18EFD8B25EAC}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.Status", "TelloSDK.Status\TelloSDK.Status.csproj", "{23E86856-2B4E-4434-B69E-F62522D26D29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.Videostream", "TelloSDK.Videostream\TelloSDK.Videostream.csproj", "{0BA54281-58F7-4F92-947D-8DEEDCA7B2C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.Infrastructure", "TelloSDK.Infrastructure\TelloSDK.Infrastructure.csproj", "{01EFC1A4-31BE-4163-BA43-560B6D99D350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +26,18 @@ Global
 		{F993B2E9-4E5A-40C2-97B1-619905909143}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F993B2E9-4E5A-40C2-97B1-619905909143}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F993B2E9-4E5A-40C2-97B1-619905909143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23E86856-2B4E-4434-B69E-F62522D26D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23E86856-2B4E-4434-B69E-F62522D26D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23E86856-2B4E-4434-B69E-F62522D26D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23E86856-2B4E-4434-B69E-F62522D26D29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BA54281-58F7-4F92-947D-8DEEDCA7B2C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BA54281-58F7-4F92-947D-8DEEDCA7B2C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BA54281-58F7-4F92-947D-8DEEDCA7B2C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BA54281-58F7-4F92-947D-8DEEDCA7B2C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01EFC1A4-31BE-4163-BA43-560B6D99D350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01EFC1A4-31BE-4163-BA43-560B6D99D350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01EFC1A4-31BE-4163-BA43-560B6D99D350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01EFC1A4-31BE-4163-BA43-560B6D99D350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

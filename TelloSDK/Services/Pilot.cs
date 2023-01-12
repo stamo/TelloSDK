@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using TelloSDK.Constants;
 using TelloSDK.Contracts;
 using TelloSDK.Enumerations;
 using TelloSDK.Models;
+using TelloSDK.Pilot.Contracts;
 
 namespace TelloSDK.Services
 {
@@ -17,40 +17,13 @@ namespace TelloSDK.Services
     public class Pilot : IPilot
     {
         /// <summary>
-        /// UDP Cllient to send commands to Tello
+        /// SDK Client to comunicate with drone
         /// </summary>
-        private UdpClient client;
+        private readonly ITelloCommandClient commandClient;
 
-        /// <summary>
-        /// Tello command endpoint
-        /// </summary>
-        private readonly IPEndPoint commandEndpoint;
-
-        /// <summary>
-        /// Remote endpoint to be used for Tello responses
-        /// </summary>
-        private IPEndPoint remoteIpEndPoint;
-
-        /// <summary>
-        /// Indicates whether drone is in SDK mode 
-        /// </summary>
-        private bool isInCommandMode;
-
-        /// <summary>
-        /// Initializes Tello Pilot
-        /// </summary>
-        /// <param name="optionsAccessor">Tello pilot options accessor</param>
-        public Pilot(IOptionsMonitor<TelloOptions> optionsAccessor)
+        public Pilot(ITelloCommandClient _commandClient)
         {
-            var options = optionsAccessor.CurrentValue;
-            commandEndpoint = new IPEndPoint(
-                options.CommandEndpoint.Ip, 
-                options.CommandEndpoint.Port);
-
-            isInCommandMode = false;
-            remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-
-            client = new UdpClient();
+            commandClient = _commandClient;
         }
 
         public TelloActionResult Backward(int distance)
@@ -73,10 +46,12 @@ namespace TelloSDK.Services
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Disconnects from drone
+        /// </summary>
         public void EnginesOff()
         {
-            client.Close();
-            client.Dispose();
+            commandClient.DisconnectCommandSDK();
         }
 
         public TelloActionResult Flip(Direction direction)
@@ -131,28 +106,7 @@ namespace TelloSDK.Services
         /// ERROR if ignition procedyre failed</returns>
         public TelloActionResult Ignition()
         {
-            var result = CreateResult(true);
-
-            if (client == null)
-            {
-                client = new UdpClient();
-            }
-
-            if (!isInCommandMode)
-            {
-                result.Message = ExecuteCommand("Command");
-
-                if (result.Message == TelloResponse.Success) 
-                {
-                    isInCommandMode = true;
-                } 
-                else
-                {
-                    result.Succeeded = false;
-                }
-            }
-
-            return result;
+            return commandClient.InitializeCommandSDK();
         }
 
         public TelloActionResult Land()
@@ -218,22 +172,6 @@ namespace TelloSDK.Services
         public TelloActionResult Up(int distance)
         {
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Executes drone command
-        /// </summary>
-        /// <param name="command">Command to execute</param>
-        /// <returns>Command result</returns>
-        private string ExecuteCommand(string command) 
-        {
-            byte[] commandBytes = Encoding.ASCII.GetBytes(command);
-            client.Send(commandBytes, commandBytes.Length, commandEndpoint);
-            client.Client.ReceiveTimeout = 2500;
-            var receiveBytes = client.Receive(ref remoteIpEndPoint);
-            var response = Encoding.ASCII.GetString(receiveBytes);
-
-            return response;
         }
 
         /// <summary>

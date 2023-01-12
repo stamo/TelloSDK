@@ -1,4 +1,4 @@
-﻿namespace TelloSDK.Constants
+﻿namespace TelloSDK.Infrastructure.Constants
 {
     /// <summary>
     /// SDK responses
