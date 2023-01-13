@@ -10,14 +10,31 @@ using static TelloSDK.Pilot.Constants.TelloSDKCommands;
 
 namespace TelloSDK.Pilot.Services
 {
+    /// <summary>
+    /// Flight plan
+    /// </summary>
     public class FlightPlan : IFlightPlan
     {
+        /// <summary>
+        /// Tello SDK Validation service
+        /// </summary>
         private readonly ITelloValidationService validationService;
 
+        /// <summary>
+        /// Tello SDK command client
+        /// </summary>
         private readonly ITelloCommandClient commandClient;
 
+        /// <summary>
+        /// List of commands in flight plan
+        /// </summary>
         private readonly List<FlightPlanCommand> commands = new List<FlightPlanCommand>();
 
+        /// <summary>
+        /// Create flight plan object
+        /// </summary>
+        /// <param name="_validationService">Tello SDK validation service</param>
+        /// <param name="_commandClient">Tello SDK command client</param>
         public FlightPlan(
             ITelloValidationService _validationService,
             ITelloCommandClient _commandClient)
@@ -26,6 +43,11 @@ namespace TelloSDK.Pilot.Services
             commandClient = _commandClient;
         }
 
+        /// <summary>
+        /// Fly backward for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
         public IFlightPlan Backward(int distance)
         {
             object[] parameters = { distance };
@@ -37,6 +59,18 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Fly at a curve according to the two given 
+        /// coordinates at {speed} (cm/s)
+        /// </summary>
+        /// <param name="x1">Position X, range(-500, 500)</param>
+        /// <param name="y1">Position Y, range(-500, 500)</param>
+        /// <param name="z1">Position Z, range(-500, 500)</param>
+        /// <param name="x2">Position X, range(-500, 500)</param>
+        /// <param name="y2">Position Y, range(-500, 500)</param>
+        /// <param name="z2">Position Z, range(-500, 500)</param>
+        /// <param name="speed">Speed in (cm/s), range(10, 60)</param>
+        /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
         public IFlightPlan Curve(int x1, int y1, int z1, int x2, int y2, int z2, int speed)
         {
             object[] parameters = { x1, y1, z1, x2, y2, z2, speed };
@@ -48,6 +82,11 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        ///  Descend to {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
         public IFlightPlan Down(int distance)
         {
             object[] parameters = { distance };
@@ -59,6 +98,9 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Stop motors immediately
+        /// </summary>
         public IFlightPlan Emergency()
         {
             AddCommand(ControlCommands.Emergency);
@@ -66,6 +108,9 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Executes flight plan
+        /// </summary>
         public void Execute()
         {
             commandClient.InitializeCommandSDK();
@@ -75,9 +120,14 @@ namespace TelloSDK.Pilot.Services
                 commandClient.ExecuteCommand(action.Command);
             }
 
+            commands.Clear();
             commandClient.DisconnectCommandSDK();
         }
 
+        /// <summary>
+        /// Flip in {direction} direction
+        /// </summary>
+        /// <param name="direction">Direction to flip in</param>
         public IFlightPlan Flip(Direction direction)
         {
             AddCommand(string.Format(ControlCommands.Flip, direction));
@@ -85,6 +135,11 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Fly forward for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
         public IFlightPlan Forward(int distance)
         {
             object[] parameters = { distance };
@@ -96,6 +151,14 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Fly to {x} {y} {z} at {speed} (cm/s)
+        /// </summary>
+        /// <param name="x">Position X, range(-500, 500)</param>
+        /// <param name="y">Position Y, range(-500, 500)</param>
+        /// <param name="z">Position Z, range(-500, 500)</param>
+        /// <param name="speed">Speed in (cm/s), range(10, 100)</param>
+        /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
         public IFlightPlan Go(int x, int y, int z, int speed)
         {
             object[] parameters = { x, y, z, speed };
@@ -107,6 +170,9 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Auto landing
+        /// </summary>
         public IFlightPlan Land()
         {
             AddCommand(ControlCommands.Land);
@@ -114,6 +180,11 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Fly left for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
         public IFlightPlan Left(int distance)
         {
             object[] parameters = { distance };
@@ -125,6 +196,11 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Fly right for {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
         public IFlightPlan Right(int distance)
         {
             object[] parameters = { distance };
@@ -136,6 +212,10 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Hovers in the air
+        /// </summary>
+        /// <remarks>Works at any time</remarks>
         public IFlightPlan Stop()
         {
             AddCommand(ControlCommands.Stop);
@@ -143,6 +223,9 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Video stream OFF
+        /// </summary>
         public IFlightPlan StreamOff()
         {
             AddCommand(ControlCommands.VideoStreamOff);
@@ -150,6 +233,9 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Video stream ON
+        /// </summary>
         public IFlightPlan StreamOn()
         {
             AddCommand(ControlCommands.VideoStreamOn);
@@ -157,6 +243,9 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Auto takeoff
+        /// </summary>
         public IFlightPlan TakeOff()
         {
             AddCommand(ControlCommands.TakeOff);
@@ -164,6 +253,11 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Rotate {degrees} degrees clockwise
+        /// </summary>
+        /// <param name="degrees">Degrees to rotate to
+        /// range(1, 360)</param>
         public IFlightPlan TurnClockwise(int degrees)
         {
             object[] parameters = { degrees };
@@ -175,6 +269,11 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Rotate {degrees} degrees counterclockwise
+        /// </summary>
+        /// <param name="degrees">Degrees to rotate to
+        /// range(1, 360)</param>
         public IFlightPlan TurnCounterClockwise(int degrees)
         {
             object[] parameters = { degrees };
@@ -186,6 +285,11 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Ascend to {distance} cm
+        /// </summary>
+        /// <param name="distance">Distance in centimeters
+        /// range(20, 500)</param>
         public IFlightPlan Up(int distance)
         {
             object[] parameters = { distance };
@@ -197,6 +301,10 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Validates flight plan
+        /// </summary>
+        /// <returns></returns>
         public IFlightPlan Validate()
         {
             bool hasErrors = false;
