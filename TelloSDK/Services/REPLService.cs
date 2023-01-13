@@ -73,7 +73,7 @@ namespace TelloSDK.Pilot.Services
                     .GetType()
                     .GetMethod(methodName);
 
-                if (methodInfo != null) 
+                if (methodInfo == null) 
                 {
                     result = REPLErrorMessages.UnknownCommand;
                 }
