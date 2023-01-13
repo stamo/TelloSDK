@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.Status", "TelloSDK.Status\TelloSDK.Status.csproj", "{23E86856-2B4E-4434-B69E-F62522D26D29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.Telemetry", "TelloSDK.Telemetry\TelloSDK.Telemetry.csproj", "{23E86856-2B4E-4434-B69E-F62522D26D29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.Videostream", "TelloSDK.Videostream\TelloSDK.Videostream.csproj", "{0BA54281-58F7-4F92-947D-8DEEDCA7B2C3}"
 EndProject
