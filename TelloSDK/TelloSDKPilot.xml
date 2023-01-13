@@ -1392,5 +1392,25 @@
             <param name="action">Action to execute</param>
             <returns></returns>
         </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.TelloSDKPilotServiceCollectionExtension">
+            <summary>
+            Add Tello SDK Pilot to IoC
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.TelloSDKPilotServiceCollectionExtension.AddTelloSDKPilot(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adding Tello SDK Pilot with default configuration
+            </summary>
+            <param name="services">Service collection</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.TelloSDKPilotServiceCollectionExtension.AddTelloSDKPilot(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{TelloSDK.Infrastructure.Models.TelloOptions})">
+            <summary>
+            Adding Tello SDK Pilot with customizable configuration options
+            </summary>
+            <param name="services">Service collection</param>
+            <param name="options">Configuration options</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
