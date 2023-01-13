@@ -220,6 +220,139 @@
             REPL Error messages
             </summary>
         </member>
+        <member name="T:TelloSDK.Pilot.Contracts.IFlightPlan">
+            <summary>
+            Flight plan
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Validate">
+            <summary>
+            Validates flight plan
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Execute">
+            <summary>
+            Executes flight plan
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.TakeOff">
+            <summary>
+            Auto takeoff
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Land">
+            <summary>
+            Auto landing
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.StreamOn">
+            <summary>
+            Video stream ON
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.StreamOff">
+            <summary>
+            Video stream OFF
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Emergency">
+            <summary>
+            Stop motors immediately
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Up(System.Int32)">
+            <summary>
+            Ascend to {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Down(System.Int32)">
+            <summary>
+             Descend to {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Left(System.Int32)">
+            <summary>
+            Fly left for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Right(System.Int32)">
+            <summary>
+            Fly right for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Forward(System.Int32)">
+            <summary>
+            Fly forward for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Backward(System.Int32)">
+            <summary>
+            Fly backward for {distance} cm
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.TurnClockwise(System.Int32)">
+            <summary>
+            Rotate {degrees} degrees clockwise
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.TurnCounterClockwise(System.Int32)">
+            <summary>
+            Rotate {degrees} degrees counterclockwise
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Flip(TelloSDK.Enumerations.Direction)">
+            <summary>
+            Flip in {direction} direction
+            </summary>
+            <param name="direction">Direction to flip in</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Go(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fly to {x} {y} {z} at {speed} (cm/s)
+            </summary>
+            <param name="x">Position X, range(-500, 500)</param>
+            <param name="y">Position Y, range(-500, 500)</param>
+            <param name="z">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Stop">
+            <summary>
+            Hovers in the air
+            </summary>
+            <remarks>Works at any time</remarks>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Curve(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Fly at a curve according to the two given 
+            coordinates at {speed} (cm/s)
+            </summary>
+            <param name="x1">Position X, range(-500, 500)</param>
+            <param name="y1">Position Y, range(-500, 500)</param>
+            <param name="z1">Position Z, range(-500, 500)</param>
+            <param name="x2">Position X, range(-500, 500)</param>
+            <param name="y2">Position Y, range(-500, 500)</param>
+            <param name="z2">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 60)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        </member>
         <member name="T:TelloSDK.Pilot.Contracts.IREPLService">
             <summary>
             Service to use Tello REPL interface
@@ -351,6 +484,26 @@
             Validates speed
             </summary>
             <param name="speed">Speed in (cm/s), range(10, 100)</param>
+        </member>
+        <member name="T:TelloSDK.Pilot.Models.FlightPlanCommand">
+            <summary>
+            Flight plan commands
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Models.FlightPlanCommand.Command">
+            <summary>
+            Executable command
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Models.FlightPlanCommand.ValidationMethod">
+            <summary>
+            Validation Method
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Models.FlightPlanCommand.Parameters">
+            <summary>
+            Command parameters
+            </summary>
         </member>
         <member name="T:TelloSDK.Pilot.Models.REPLCommand">
             <summary>
