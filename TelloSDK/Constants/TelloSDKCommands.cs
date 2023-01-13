@@ -223,5 +223,15 @@ namespace TelloSDK.Pilot.Constants
             /// </summary>
             internal const string InvalidDimensions = "x, y and z values can’t be set between -20 and 20 simultaneously";
         }
+
+        /// <summary>
+        /// REPL Error messages
+        /// </summary>
+        internal static class REPLErrorMessages 
+        {
+            internal const string UnknownCommand = "Unknown command";
+
+            internal const string InvalidParameters = "Invalid parameters";
+        }
     }
 }

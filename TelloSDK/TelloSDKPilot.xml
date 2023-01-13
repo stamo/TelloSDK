@@ -215,6 +215,23 @@
             Invalid dimensions
             </summary>
         </member>
+        <member name="T:TelloSDK.Pilot.Constants.TelloSDKCommands.REPLErrorMessages">
+            <summary>
+            REPL Error messages
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Contracts.IREPLService">
+            <summary>
+            Service to use Tello REPL interface
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.IREPLService.ExecuteCommand(System.String)">
+            <summary>
+            REPL command executor
+            </summary>
+            <param name="command">Command to be executed</param>
+            <returns></returns>
+        </member>
         <member name="T:TelloSDK.Pilot.Contracts.ITelloCommandClient">
             <summary>
             Tello SDK command executor
@@ -334,6 +351,74 @@
             Validates speed
             </summary>
             <param name="speed">Speed in (cm/s), range(10, 100)</param>
+        </member>
+        <member name="T:TelloSDK.Pilot.Models.REPLCommand">
+            <summary>
+            Command for REPL interface
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Models.REPLCommand.Command">
+            <summary>
+            Command name
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Models.REPLCommand.Method">
+            <summary>
+            Method name
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Models.REPLCommand.NumberOfParams">
+            <summary>
+            Number of parameters
+            </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Services.REPLService">
+            <summary>
+            Service to use Tello REPL interface
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Services.REPLService.pilot">
+            <summary>
+            Tello pilot
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Services.REPLService.commands">
+            <summary>
+            Available commands
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.REPLService.#ctor(TelloSDK.Contracts.IPilot)">
+            <summary>
+            Create commands collection
+            </summary>
+            <param name="_pilot">Tello pilot</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.REPLService.ExecuteCommand(System.String)">
+            <summary>
+            REPL command executor
+            </summary>
+            <param name="command">Command to be executed</param>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.REPLService.GetDirection(System.String)">
+            <summary>
+            Gets flip direction
+            </summary>
+            <param name="direction">flip direction</param>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.REPLService.LoadCommands">
+            <summary>
+            Loads all available commands
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.REPLService.AddCommand(System.String,System.String,System.Int32)">
+            <summary>
+            Adds command to commands collection
+            </summary>
+            <param name="name">Command name</param>
+            <param name="method">Method name</param>
+            <param name="paramsCount">Number of parameters</param>
         </member>
         <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.client">
             <summary>
