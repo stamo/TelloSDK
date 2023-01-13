@@ -1,5 +1,4 @@
-﻿using System.Text;
-using TelloSDK.Contracts;
+﻿using TelloSDK.Contracts;
 using TelloSDK.Enumerations;
 using TelloSDK.Infrastructure.Constants;
 using TelloSDK.Models;
@@ -19,12 +18,21 @@ namespace TelloSDK.Services
         private readonly ITelloCommandClient commandClient;
 
         /// <summary>
+        /// SDK commands validation
+        /// </summary>
+        private readonly ITelloValidationService validationService;
+
+        /// <summary>
         /// Tello pilot
         /// </summary>
         /// <param name="_commandClient">Client to execute commands</param>
-        public Pilot(ITelloCommandClient _commandClient)
+        /// <param name="_validationService">SDK command validation service</param>
+        public Pilot(
+            ITelloCommandClient _commandClient,
+            ITelloValidationService _validationService)
         {
             commandClient = _commandClient;
+            validationService = _validationService;
         }
 
         /// <summary>
@@ -35,14 +43,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Backward(int distance)
         {
-            if (distance > 500 || distance < 20)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
-            };
+            var result = validationService.ValidateBackward(distance);
 
-            return ExecuteAction(string.Format(ControlCommands.Back, distance));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.Back, distance));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -60,53 +68,12 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Curve(int x1, int y1, int z1, int x2, int y2, int z2, int speed)
         {
-            var result = CreateResult(true);
-            result.Message = string.Empty;
-            StringBuilder sb = new StringBuilder();
-
-            if (x1 > 500 || x1 < -500 || x2 > 500 || x2 < -500)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, -500, 500));
-            };
-
-            if (y1 > 500 || y1 < -500 || y2 > 500 || y2 < -500)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, -500, 500));
-            };
-
-            if (z1 > 500 || z1 < -500 || z2 > 500 || z2 < -500)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, -500, 500));
-            };
-
-            if (speed > 100 || speed < 10)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
-            };
-
-            if (((x1 > -20 && x1 < 20) &&
-                (y1 > -20 && y1 < 20) &&
-                (z1 > -20 && z1 < 20)) ||
-                ((x2 > -20 && x2 < 20) &&
-                (y2 > -20 && y2 < 20) &&
-                (z2 > -20 && z2 < 20)))
-            {
-                result.Succeeded = false;
-                sb.AppendLine(CommandsErrorMessages.InvalidDimensions);
-            }
+            var result = validationService.ValidateCurve(x1, y1, z1, x2, y2, z2, speed);
 
             if (result.Succeeded)
             {
                 result = ExecuteAction(string
                     .Format(ControlCommands.Curve, x1, y1, z1, x2, y2, z2, speed));
-            }
-            else
-            {
-                result.Message = sb.ToString();
             }
 
             return result;
@@ -120,14 +87,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Down(int distance)
         {
-            if (distance > 500 || distance < 20)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
-            };
+            var result = validationService.ValidateDown(distance);
 
-            return ExecuteAction(string.Format(ControlCommands.Down, distance));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.Down, distance));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -167,14 +134,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Forward(int distance)
         {
-            if (distance > 500 || distance < 20)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
-            };
+            var result = validationService.ValidateForward(distance);
 
-            return ExecuteAction(string.Format(ControlCommands.Forward, distance));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.Forward, distance));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -260,49 +227,11 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Go(int x, int y, int z, int speed)
         {
-            var result = CreateResult(true);
-            result.Message = string.Empty;
-            StringBuilder sb = new StringBuilder();
-
-            if (x > 500 || x < -500)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, -500, 500));
-            };
-
-            if (y > 500 || y < -500)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, -500, 500));
-            };
-
-            if (z > 500 || z < -500)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, -500, 500));
-            };
-
-            if (speed > 100 || speed < 10)
-            {
-                result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
-            };
-
-            if ((x > -20 && x < 20) &&
-                (y > -20 && y < 20) &&
-                (z > -20 && z < 20))
-            {
-                result.Succeeded = false;
-                sb.AppendLine(CommandsErrorMessages.InvalidDimensions);
-            }
+            var result = validationService.ValidateGo(x, y, z, speed);
 
             if (result.Succeeded)
             {
                 result = ExecuteAction(string.Format(ControlCommands.Go, x, y, z, speed));
-            }
-            else
-            {
-                result.Message = sb.ToString();
             }
 
             return result;
@@ -335,14 +264,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Left(int distance)
         {
-            if (distance > 500 || distance < 20)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
-            };
+            var result = validationService.ValidateLeft(distance);
 
-            return ExecuteAction(string.Format(ControlCommands.Left, distance));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.Left, distance));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -353,14 +282,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Right(int distance)
         {
-            if (distance > 500 || distance < 20)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
-            };
+            var result = validationService.ValidateRight(distance);
 
-            return ExecuteAction(string.Format(ControlCommands.Right, distance));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.Right, distance));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -382,14 +311,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR</returns>
         public TelloActionResult SetSpeed(int speed)
         {
-            if (speed > 100 || speed < 10)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
-            };
+            var result = validationService.ValidateSetSpeed(speed);
 
-            return ExecuteAction(string.Format(SetCommands.Speed, speed));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(SetCommands.Speed, speed));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -448,14 +377,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult TurnClockwise(int degrees)
         {
-            if (degrees > 360 || degrees < 1)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.DegreesOutOfRange, 1, 360));
-            };
+            var result = validationService.ValidateTurnClockwise(degrees);
 
-            return ExecuteAction(string.Format(ControlCommands.RotateClockwise, degrees));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.RotateClockwise, degrees));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -466,14 +395,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult TurnCounterClockwise(int degrees)
         {
-            if (degrees > 360 || degrees < 1)
-            {
-                return new TelloActionResult(
-                    false,
-                    string.Format(CommandsErrorMessages.DegreesOutOfRange, 1, 360));
-            };
+            var result = validationService.ValidateTurnCounterClockwise(degrees);
 
-            return ExecuteAction(string.Format(ControlCommands.RotateCounterClockwise, degrees));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.RotateCounterClockwise, degrees));
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -484,14 +413,14 @@ namespace TelloSDK.Services
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
         public TelloActionResult Up(int distance)
         {
-            if (distance > 500 || distance < 20)
-            {
-                return new TelloActionResult(
-                    false, 
-                    string.Format(CommandsErrorMessages.DistanceOutOfRange, 20, 500));
-            };
+            var result = validationService.ValidateUp(distance);
 
-            return ExecuteAction(string.Format(ControlCommands.Up, distance));
+            if (result.Succeeded)
+            {
+                result = ExecuteAction(string.Format(ControlCommands.Up, distance));
+            }
+
+            return result;
         }
 
         /// <summary>

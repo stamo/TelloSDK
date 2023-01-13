@@ -244,6 +244,97 @@
             Disposes SDK client
             </summary>
         </member>
+        <member name="T:TelloSDK.Pilot.Contracts.ITelloValidationService">
+            <summary>
+            Tello SDK command validation
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateUp(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateDown(System.Int32)">
+            <summary>
+             Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateLeft(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateRight(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateForward(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateBackward(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateTurnClockwise(System.Int32)">
+            <summary>
+            Validates degrees
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateTurnCounterClockwise(System.Int32)">
+            <summary>
+            Validates degrees
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateGo(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Validates Position and speed
+            </summary>
+            <param name="x">Position X, range(-500, 500)</param>
+            <param name="y">Position Y, range(-500, 500)</param>
+            <param name="z">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateCurve(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Validates both Positions and speed
+            coordinates at {speed} (cm/s)
+            </summary>
+            <param name="x1">Position X, range(-500, 500)</param>
+            <param name="y1">Position Y, range(-500, 500)</param>
+            <param name="z1">Position Z, range(-500, 500)</param>
+            <param name="x2">Position X, range(-500, 500)</param>
+            <param name="y2">Position Y, range(-500, 500)</param>
+            <param name="z2">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 60)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloValidationService.ValidateSetSpeed(System.Int32)">
+            <summary>
+            Validates speed
+            </summary>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+        </member>
         <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.client">
             <summary>
             UDP Cllient to send commands to Tello
@@ -293,6 +384,104 @@
             <summary>
             Disposes SDK client
             </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Services.TelloValidationService">
+            <summary>
+            Tello SDK command validation
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateBackward(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateCurve(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Validates both Positions and speed
+            coordinates at {speed} (cm/s)
+            </summary>
+            <param name="x1">Position X, range(-500, 500)</param>
+            <param name="y1">Position Y, range(-500, 500)</param>
+            <param name="z1">Position Z, range(-500, 500)</param>
+            <param name="x2">Position X, range(-500, 500)</param>
+            <param name="y2">Position Y, range(-500, 500)</param>
+            <param name="z2">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 60)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateDown(System.Int32)">
+            <summary>
+             Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateForward(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateGo(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Validates Position and speed
+            </summary>
+            <param name="x">Position X, range(-500, 500)</param>
+            <param name="y">Position Y, range(-500, 500)</param>
+            <param name="z">Position Z, range(-500, 500)</param>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateLeft(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateRight(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateSetSpeed(System.Int32)">
+            <summary>
+            Validates speed
+            </summary>
+            <param name="speed">Speed in (cm/s), range(10, 100)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateTurnClockwise(System.Int32)">
+            <summary>
+            Validates degrees
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateTurnCounterClockwise(System.Int32)">
+            <summary>
+            Validates degrees
+            </summary>
+            <param name="degrees">Degrees to rotate to
+            range(1, 360)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateUp(System.Int32)">
+            <summary>
+            Validates distance
+            </summary>
+            <param name="distance">Distance in centimeters
+            range(20, 500)</param>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloValidationService.CreateResult(System.Boolean)">
+            <summary>
+            Initializes Action result object
+            </summary>
+            <param name="forSuccess">Result marked as success or failure</param>
+            <returns>TelloActionResult</returns>
         </member>
         <member name="T:TelloSDK.Contracts.IPilot">
             <summary>
@@ -547,11 +736,17 @@
             SDK Client to comunicate with drone
             </summary>
         </member>
-        <member name="M:TelloSDK.Services.Pilot.#ctor(TelloSDK.Pilot.Contracts.ITelloCommandClient)">
+        <member name="F:TelloSDK.Services.Pilot.validationService">
+            <summary>
+            SDK commands validation
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.#ctor(TelloSDK.Pilot.Contracts.ITelloCommandClient,TelloSDK.Pilot.Contracts.ITelloValidationService)">
             <summary>
             Tello pilot
             </summary>
             <param name="_commandClient">Client to execute commands</param>
+            <param name="_validationService">SDK command validation service</param>
         </member>
         <member name="M:TelloSDK.Services.Pilot.Backward(System.Int32)">
             <summary>
