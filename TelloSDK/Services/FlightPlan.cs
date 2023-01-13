@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using TelloSDK.Enumerations;
+using TelloSDK.Models;
 using TelloSDK.Pilot.Contracts;
+using TelloSDK.Pilot.Exceptions;
 using TelloSDK.Pilot.Models;
 using static TelloSDK.Pilot.Constants.TelloSDKCommands;
 
@@ -197,7 +199,42 @@ namespace TelloSDK.Pilot.Services
 
         public IFlightPlan Validate()
         {
-            throw new NotImplementedException();
+            bool hasErrors = false;
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < commands.Count; i++)
+            {
+                if (commands[i].ValidationMethod == null)
+                {
+                    sb.AppendLine($"{i + 1}. OK");
+                }
+                else
+                {
+                    MethodInfo methodInfo = validationService
+                    .GetType()
+                    .GetMethod(commands[i].ValidationMethod);
+
+                    var result = (TelloActionResult)methodInfo
+                        .Invoke(validationService, commands[i].Parameters);
+
+                    if (result.Succeeded == false)
+                    {
+                        hasErrors = true;
+                        sb.AppendLine($"{i + 1}. {result.Message}");
+                    }
+                    else
+                    {
+                        sb.AppendLine($"{i + 1}. OK");
+                    }
+                }
+            }
+
+            if (hasErrors)
+            {
+                throw new FlightPlanValidationException(sb.ToString());
+            }
+
+            return this;
         }
 
         private void AddCommand(string command, string? validationMethod = null, object[]? parameters = null) 
