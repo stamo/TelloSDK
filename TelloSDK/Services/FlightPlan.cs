@@ -345,6 +345,12 @@ namespace TelloSDK.Pilot.Services
             return this;
         }
 
+        /// <summary>
+        /// Add command to command list
+        /// </summary>
+        /// <param name="command">Command to be executed</param>
+        /// <param name="validationMethod">Validation method name</param>
+        /// <param name="parameters">Validation method parameters</param>
         private void AddCommand(string command, string? validationMethod = null, object[]? parameters = null) 
         {
             commands.Add(new FlightPlanCommand() 
