@@ -15,7 +15,7 @@ namespace TelloSDK.Pilot.Constants
             /// <summary>
             /// Enter SDK mode
             /// </summary>
-            internal const string InitializeSDK = "Command";
+            internal const string InitializeSDK = "command";
 
             /// <summary>
             /// Auto takeoff
