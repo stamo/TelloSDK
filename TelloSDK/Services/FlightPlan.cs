@@ -130,7 +130,8 @@ namespace TelloSDK.Pilot.Services
         /// <param name="direction">Direction to flip in</param>
         public IFlightPlan Flip(Direction direction)
         {
-            AddCommand(string.Format(ControlCommands.Flip, direction));
+            string dir = ControlCommands.GetFlipDirection(direction);
+            AddCommand(string.Format(ControlCommands.Flip, dir));
 
             return this;
         }
