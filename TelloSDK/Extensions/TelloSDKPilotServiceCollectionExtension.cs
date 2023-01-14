@@ -20,10 +20,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddTelloSDKPilot(this IServiceCollection services)
         {
-            Action<TelloOptions> options = option => new TelloOptions()
+            Action<TelloOptions> options = option =>
             {
-                IPAddress = IPAddress.Parse("192.168.10.1"),
-                Port = 8889
+                option.IPAddress = IPAddress.Parse("192.168.10.1");
+                option.Port = 8889;
             };
 
             AddTelloSDKPilot(services, options);
