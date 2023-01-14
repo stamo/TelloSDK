@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -12,6 +11,10 @@ using static TelloSDK.Pilot.Constants.TelloSDKCommands;
 
 namespace TelloSDK.Pilot.Services
 {
+    /// <summary>
+    /// Tello command client 
+    /// used to comunicate with the drone
+    /// </summary>
     public class TelloCommandClient : ITelloCommandClient
     {
         /// <summary>
@@ -116,9 +119,9 @@ namespace TelloSDK.Pilot.Services
         /// </summary>
         public void DisconnectCommandSDK()
         {
-            //isInCommandMode = false;
-            //client.Close();
-            //client.Dispose();
+            isInCommandMode = false;
+            client.Close();
+            client.Dispose();
         }
     }
 }
