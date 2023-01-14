@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using TelloSDK.Infrastructure.Constants;
 using TelloSDK.Infrastructure.Models;
 using TelloSDK.Models;
@@ -59,7 +60,8 @@ namespace TelloSDK.Pilot.Services
         {
             byte[] commandBytes = Encoding.ASCII.GetBytes(command);
             client.Send(commandBytes, commandBytes.Length, commandEndpoint);
-            client.Client.ReceiveTimeout = 2500;
+            Thread.Sleep(3000);
+            client.Client.ReceiveTimeout = 10000;
             var receiveBytes = client.Receive(ref remoteIpEndPoint);
             var response = Encoding.ASCII.GetString(receiveBytes);
 
@@ -114,9 +116,9 @@ namespace TelloSDK.Pilot.Services
         /// </summary>
         public void DisconnectCommandSDK()
         {
-            isInCommandMode = false;
-            client.Close();
-            client.Dispose();
+            //isInCommandMode = false;
+            //client.Close();
+            //client.Dispose();
         }
     }
 }
