@@ -754,6 +754,12 @@
             <param name="method">Method name</param>
             <param name="paramsCount">Number of parameters</param>
         </member>
+        <member name="T:TelloSDK.Pilot.Services.TelloCommandClient">
+            <summary>
+            Tello command client 
+            used to comunicate with the drone
+            </summary>
+        </member>
         <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.client">
             <summary>
             UDP Cllient to send commands to Tello
