@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelloSDK.Videostream", "Tel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelloSDK.Infrastructure", "TelloSDK.Infrastructure\TelloSDK.Infrastructure.csproj", "{01EFC1A4-31BE-4163-BA43-560B6D99D350}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.TestApp", "TelloSDK.TestApp\TelloSDK.TestApp.csproj", "{658BBBC6-EBE4-4C4F-ADCD-285A829E935A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelloSDK.TestApp", "TelloSDK.TestApp\TelloSDK.TestApp.csproj", "{658BBBC6-EBE4-4C4F-ADCD-285A829E935A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelloSDK.Tests", "TelloSDK.Tests\TelloSDK.Tests.csproj", "{0488FBF5-A5B0-4A91-8898-F0D0FAA79D0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{658BBBC6-EBE4-4C4F-ADCD-285A829E935A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{658BBBC6-EBE4-4C4F-ADCD-285A829E935A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{658BBBC6-EBE4-4C4F-ADCD-285A829E935A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0488FBF5-A5B0-4A91-8898-F0D0FAA79D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0488FBF5-A5B0-4A91-8898-F0D0FAA79D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0488FBF5-A5B0-4A91-8898-F0D0FAA79D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0488FBF5-A5B0-4A91-8898-F0D0FAA79D0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
