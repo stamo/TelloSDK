@@ -394,6 +394,37 @@
             Disposes SDK client
             </summary>
         </member>
+        <member name="T:TelloSDK.Pilot.Contracts.ITelloConnectClient">
+            <summary>
+            Client to communicate with drone 
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Contracts.ITelloConnectClient.ReceiveTimeout">
+            <summary>
+            Time to wait for response
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloConnectClient.Send(System.Byte[],System.Int32,System.Net.IPEndPoint)">
+            <summary>
+            Send command to drone
+            </summary>
+            <param name="datagram">Command data</param>
+            <param name="length">Command length</param>
+            <param name="endpoint">Remote endpoin</param>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloConnectClient.Receive(System.Net.IPEndPoint@)">
+            <summary>
+            Receive data from drone
+            </summary>
+            <param name="endpoint">Remote endpoint</param>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Contracts.ITelloConnectClient.Close">
+            <summary>
+            Close comunication client
+            </summary>
+        </member>
         <member name="T:TelloSDK.Pilot.Contracts.ITelloValidationService">
             <summary>
             Tello SDK command validation
@@ -762,7 +793,7 @@
         </member>
         <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.client">
             <summary>
-            UDP Cllient to send commands to Tello
+            Cllient to send commands to Tello
             </summary>
         </member>
         <member name="F:TelloSDK.Pilot.Services.TelloCommandClient.commandEndpoint">
@@ -780,7 +811,7 @@
             Indicates whether drone is in SDK mode 
             </summary>
         </member>
-        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{TelloSDK.Infrastructure.Models.TelloOptions},System.Net.Sockets.UdpClient)">
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{TelloSDK.Infrastructure.Models.TelloOptions},TelloSDK.Pilot.Contracts.ITelloConnectClient)">
             <summary>
             Initializes Tello Pilot
             </summary>
@@ -810,6 +841,53 @@
             <summary>
             Disposes SDK client
             </summary>
+        </member>
+        <member name="T:TelloSDK.Pilot.Services.TelloConnectClient">
+            <summary>
+            Client to communicate with drone 
+            </summary>
+        </member>
+        <member name="F:TelloSDK.Pilot.Services.TelloConnectClient.udpClient">
+            <summary>
+            Internal client used 
+            for comunication
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloConnectClient.#ctor">
+            <summary>
+            Creates connection client
+            </summary>
+        </member>
+        <member name="P:TelloSDK.Pilot.Services.TelloConnectClient.ReceiveTimeout">
+            <summary>
+            Time to wait for response
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloConnectClient.Close">
+            <summary>
+            Close communication client
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloConnectClient.Dispose">
+            <summary>
+            Dispose communication client
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloConnectClient.Receive(System.Net.IPEndPoint@)">
+            <summary>
+            Receive data from drone
+            </summary>
+            <param name="endpoint">Remote endpoint</param>
+            <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloConnectClient.Send(System.Byte[],System.Int32,System.Net.IPEndPoint)">
+            <summary>
+            Send command to drone
+            </summary>
+            <param name="datagram">Command data</param>
+            <param name="length">Command length</param>
+            <param name="endpoint">Remote endpoin</param>
+            <returns></returns>
         </member>
         <member name="T:TelloSDK.Pilot.Services.TelloValidationService">
             <summary>

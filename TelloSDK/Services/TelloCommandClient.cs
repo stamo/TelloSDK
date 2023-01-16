@@ -18,9 +18,9 @@ namespace TelloSDK.Pilot.Services
     public class TelloCommandClient : ITelloCommandClient
     {
         /// <summary>
-        /// UDP Cllient to send commands to Tello
+        /// Cllient to send commands to Tello
         /// </summary>
-        private UdpClient client;
+        private ITelloConnectClient client;
 
         /// <summary>
         /// Tello command endpoint
@@ -42,7 +42,7 @@ namespace TelloSDK.Pilot.Services
         /// </summary>
         /// <param name="optionsAccessor">Tello pilot options accessor</param>
         /// <param name="_client">UDP Client to comunicate with drone</param>
-        public TelloCommandClient(IOptionsMonitor<TelloOptions> optionsAccessor, UdpClient _client)
+        public TelloCommandClient(IOptionsMonitor<TelloOptions> optionsAccessor, ITelloConnectClient _client)
         {
             var options = optionsAccessor.CurrentValue;
             commandEndpoint = new IPEndPoint(
@@ -65,7 +65,7 @@ namespace TelloSDK.Pilot.Services
             byte[] commandBytes = Encoding.ASCII.GetBytes(command);
             client.Send(commandBytes, commandBytes.Length, commandEndpoint);
             Thread.Sleep(3000);
-            client.Client.ReceiveTimeout = 10000;
+            client.ReceiveTimeout = 10000;
             var receiveBytes = client.Receive(ref remoteIpEndPoint);
             var response = Encoding.ASCII.GetString(receiveBytes);
 
@@ -90,12 +90,12 @@ namespace TelloSDK.Pilot.Services
             var result = new TelloActionResult()
             {
                 Succeeded = true,
-                Message = "OK"
+                Message = TelloResponse.Success,
             };
 
             if (client == null)
             {
-                client = new UdpClient();
+                client = new TelloConnectClient();
             }
 
             if (!isInCommandMode)

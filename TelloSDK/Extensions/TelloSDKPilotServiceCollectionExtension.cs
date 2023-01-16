@@ -42,7 +42,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.Configure(options);
             services.AddSingleton<ITelloCommandClient, TelloCommandClient>();
-            services.AddScoped<UdpClient>();
+            services.AddScoped<ITelloConnectClient, TelloConnectClient>();
             services.AddScoped<ITelloValidationService, TelloValidationService>();
             services.AddScoped<IPilot, Pilot>();
             services.AddScoped<IREPLService, REPLService>();
