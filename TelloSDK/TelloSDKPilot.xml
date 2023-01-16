@@ -569,9 +569,9 @@
             Method name
             </summary>
         </member>
-        <member name="P:TelloSDK.Pilot.Models.REPLCommand.NumberOfParams">
+        <member name="P:TelloSDK.Pilot.Models.REPLCommand.TypesParams">
             <summary>
-            Number of parameters
+            Types of parameters
             </summary>
         </member>
         <member name="T:TelloSDK.Pilot.Services.FlightPlan">
@@ -777,7 +777,7 @@
             Loads all available commands
             </summary>
         </member>
-        <member name="M:TelloSDK.Pilot.Services.REPLService.AddCommand(System.String,System.String,System.Int32)">
+        <member name="M:TelloSDK.Pilot.Services.REPLService.AddCommand(System.String,System.String,System.Type[])">
             <summary>
             Adds command to commands collection
             </summary>

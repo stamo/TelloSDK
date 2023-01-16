@@ -50,37 +50,44 @@ namespace TelloSDK.Pilot.Services
             {
                 result = REPLErrorMessages.UnknownCommand;
             }
-            else if (parameters.Length - 1 != commands[parameters[0]].NumberOfParams)
+            else if (parameters.Length - 1 != commands[parameters[0]].TypesParams.Length)
             {
                 result = REPLErrorMessages.InvalidParameters;
             }
             else
             {
-                string methodName = commands[parameters[0]].Method;
-                object[] args = new object[parameters.Length -1];
-
-                for (int i = 1; i < parameters.Length; i++)
+                try
                 {
-                    args[i - 1] = parameters[i];
+                    string methodName = commands[parameters[0]].Method;
+                    object[] args = new object[parameters.Length - 1];
+
+                    for (int i = 1; i < parameters.Length; i++)
+                    {
+                        args[i - 1] = Convert.ChangeType(parameters[i], commands[parameters[0]].TypesParams[i - 1]);
+                    }
+
+                    if (methodName == nameof(pilot.Flip))
+                    {
+                        args[0] = GetDirection(args[0].ToString());
+                    }
+
+                    MethodInfo methodInfo = pilot
+                        .GetType()
+                        .GetMethod(methodName);
+
+                    if (methodInfo == null)
+                    {
+                        result = REPLErrorMessages.UnknownCommand;
+                    }
+                    else
+                    {
+                        var commandResult = (TelloActionResult)methodInfo.Invoke(pilot, args);
+                        result = commandResult.Message ?? string.Empty;
+                    }
                 }
-
-                if (methodName == nameof(pilot.Flip))
+                catch (FormatException)
                 {
-                    args[0] = GetDirection(args[0].ToString());
-                }
-
-                MethodInfo methodInfo = pilot
-                    .GetType()
-                    .GetMethod(methodName);
-
-                if (methodInfo == null) 
-                {
-                    result = REPLErrorMessages.UnknownCommand;
-                }
-                else
-                {
-                    var commandResult = (TelloActionResult)methodInfo.Invoke(pilot, args);
-                    result = commandResult.Message ?? string.Empty;
+                    result = REPLErrorMessages.InvalidParameters;
                 }
             }
 
@@ -106,34 +113,49 @@ namespace TelloSDK.Pilot.Services
         /// </summary>
         private void LoadCommands()
         {
-            AddCommand("init", nameof(pilot.Ignition), 0);
-            AddCommand("takeoff", nameof(pilot.TakeOff), 0);
-            AddCommand("land", nameof(pilot.Land), 0);
-            AddCommand("streamon", nameof(pilot.StreamOn), 0);
-            AddCommand("streamoff", nameof(pilot.StreamOff), 0);
-            AddCommand("emergency", nameof(pilot.Emergency), 0);
-            AddCommand("up", nameof(pilot.Up), 1);
-            AddCommand("down", nameof(pilot.Down), 1);
-            AddCommand("left", nameof(pilot.Left), 1);
-            AddCommand("right", nameof(pilot.Right), 1);
-            AddCommand("forward", nameof(pilot.Forward), 1);
-            AddCommand("back", nameof(pilot.Backward), 1);
-            AddCommand("cw", nameof(pilot.TurnClockwise), 1);
-            AddCommand("ccw", nameof(pilot.TurnCounterClockwise), 1);
-            AddCommand("flip", nameof(pilot.Flip), 1);
-            AddCommand("go", nameof(pilot.Go), 4);
-            AddCommand("stop", nameof(pilot.Stop), 0);
-            AddCommand("curve", nameof(pilot.Curve), 7);
-            AddCommand("speed", nameof(pilot.SetSpeed), 1);
-            AddCommand("wifi", nameof(pilot.SetWiFi), 2);
-            AddCommand("ap", nameof(pilot.SetAccessPoint), 2);
-            AddCommand("speed?", nameof(pilot.GetSpeed), 0);
-            AddCommand("battery?", nameof(pilot.GetBattery), 0);
-            AddCommand("time?", nameof(pilot.GetTime), 0);
-            AddCommand("wifi?", nameof(pilot.GetWiFi), 0);
-            AddCommand("sdk?", nameof(pilot.GetSdk), 0);
-            AddCommand("sn?", nameof(pilot.GetSerialNumber), 0);
-            AddCommand("quit", nameof(pilot.EnginesOff), 0);
+            AddCommand("init", nameof(pilot.Ignition), new Type[] { });
+            AddCommand("takeoff", nameof(pilot.TakeOff), new Type[] { });
+            AddCommand("land", nameof(pilot.Land), new Type[] { });
+            AddCommand("streamon", nameof(pilot.StreamOn), new Type[] { });
+            AddCommand("streamoff", nameof(pilot.StreamOff), new Type[] { });
+            AddCommand("emergency", nameof(pilot.Emergency), new Type[] { });
+            AddCommand("up", nameof(pilot.Up), new Type[] { typeof(int) });
+            AddCommand("down", nameof(pilot.Down), new Type[] { typeof(int) });
+            AddCommand("left", nameof(pilot.Left), new Type[] { typeof(int) });
+            AddCommand("right", nameof(pilot.Right), new Type[] { typeof(int) });
+            AddCommand("forward", nameof(pilot.Forward), new Type[] { typeof(int) });
+            AddCommand("back", nameof(pilot.Backward), new Type[] { typeof(int) });
+            AddCommand("cw", nameof(pilot.TurnClockwise), new Type[] { typeof(int) });
+            AddCommand("ccw", nameof(pilot.TurnCounterClockwise), new Type[] { typeof(int) });
+            AddCommand("flip", nameof(pilot.Flip), new Type[] { typeof(string) });
+            AddCommand("go", nameof(pilot.Go), new Type[] 
+            {
+                typeof(int),
+                typeof(int),
+                typeof(int),
+                typeof(int)
+            });
+            AddCommand("stop", nameof(pilot.Stop), new Type[] { });
+            AddCommand("curve", nameof(pilot.Curve), new Type[]
+            {
+                typeof(int),
+                typeof(int),
+                typeof(int),
+                typeof(int),
+                typeof(int),
+                typeof(int),
+                typeof(int)
+            });
+            AddCommand("speed", nameof(pilot.SetSpeed), new Type[] { typeof(int) });
+            AddCommand("wifi", nameof(pilot.SetWiFi), new Type[] { typeof(string), typeof(string) });
+            AddCommand("ap", nameof(pilot.SetAccessPoint), new Type[] { typeof(string), typeof(string) });
+            AddCommand("speed?", nameof(pilot.GetSpeed), new Type[] { });
+            AddCommand("battery?", nameof(pilot.GetBattery), new Type[] { });
+            AddCommand("time?", nameof(pilot.GetTime), new Type[] { });
+            AddCommand("wifi?", nameof(pilot.GetWiFi), new Type[] { });
+            AddCommand("sdk?", nameof(pilot.GetSdk), new Type[] { });
+            AddCommand("sn?", nameof(pilot.GetSerialNumber), new Type[] { });
+            AddCommand("quit", nameof(pilot.EnginesOff), new Type[] { });
         }
 
         /// <summary>
@@ -142,7 +164,7 @@ namespace TelloSDK.Pilot.Services
         /// <param name="name">Command name</param>
         /// <param name="method">Method name</param>
         /// <param name="paramsCount">Number of parameters</param>
-        private void AddCommand(string name, string method, int paramsCount)
+        private void AddCommand(string name, string method, Type[] typesOfParameters)
         {
             if (commands.ContainsKey(name) == false) 
             {
@@ -150,7 +172,7 @@ namespace TelloSDK.Pilot.Services
                 {
                     Command = name,
                     Method = method,
-                    NumberOfParams = paramsCount
+                    TypesParams = typesOfParameters
                 });
             }
         }

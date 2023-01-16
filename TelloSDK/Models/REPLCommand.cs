@@ -1,4 +1,6 @@
-﻿namespace TelloSDK.Pilot.Models
+﻿using System;
+
+namespace TelloSDK.Pilot.Models
 {
     /// <summary>
     /// Command for REPL interface
@@ -16,8 +18,8 @@
         public string Method { get; set; } = null!;
 
         /// <summary>
-        /// Number of parameters
+        /// Types of parameters
         /// </summary>
-        public int NumberOfParams { get; set; }
+        public Type[] TypesParams { get; set; } = null!;
     }
 }
