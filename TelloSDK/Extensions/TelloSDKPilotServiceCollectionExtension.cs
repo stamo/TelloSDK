@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Sockets;
 using TelloSDK.Contracts;
 using TelloSDK.Infrastructure.Models;
 using TelloSDK.Pilot.Contracts;
@@ -41,6 +42,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.Configure(options);
             services.AddSingleton<ITelloCommandClient, TelloCommandClient>();
+            services.AddScoped<UdpClient>();
             services.AddScoped<ITelloValidationService, TelloValidationService>();
             services.AddScoped<IPilot, Pilot>();
             services.AddScoped<IREPLService, REPLService>();

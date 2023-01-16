@@ -41,7 +41,8 @@ namespace TelloSDK.Pilot.Services
         /// Initializes Tello Pilot
         /// </summary>
         /// <param name="optionsAccessor">Tello pilot options accessor</param>
-        public TelloCommandClient(IOptionsMonitor<TelloOptions> optionsAccessor)
+        /// <param name="_client">UDP Client to comunicate with drone</param>
+        public TelloCommandClient(IOptionsMonitor<TelloOptions> optionsAccessor, UdpClient _client)
         {
             var options = optionsAccessor.CurrentValue;
             commandEndpoint = new IPEndPoint(
@@ -51,7 +52,7 @@ namespace TelloSDK.Pilot.Services
             isInCommandMode = false;
             remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
-            client = new UdpClient();
+            client = _client;
         }
 
         /// <summary>
