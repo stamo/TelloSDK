@@ -1,12 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using TelloSDK.Infrastructure.Constants;
 using TelloSDK.Infrastructure.Models;
 using TelloSDK.Models;
@@ -17,12 +12,13 @@ namespace TelloSDK.Tests
 {
     public class CommandClientTests
     {
-        private Mock<ITelloConnectClient> moqConnectClient = new Mock<ITelloConnectClient>();
-        private Mock<IOptionsMonitor<TelloOptions>> moqOptionsAccessor = new Mock<IOptionsMonitor<TelloOptions>>();
+        private TelloCommandClient commandClient;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Setup()
         {
+            var moqConnectClient = new Mock<ITelloConnectClient>();
+            var moqOptionsAccessor = new Mock<IOptionsMonitor<TelloOptions>>();
             moqConnectClient.Setup(c => c.Send(
                 It.IsAny<byte[]>(), 
                 It.IsAny<int>(),
@@ -37,15 +33,13 @@ namespace TelloSDK.Tests
                     IPAddress = IPAddress.Parse("127.0.0.1"),
                     Port = 8080
                 });
+
+            commandClient = new TelloCommandClient(moqOptionsAccessor.Object, moqConnectClient.Object);
         }
 
         [Test]
         public void ExecuteCommandTest()
         {
-            var connectClient = moqConnectClient.Object;
-            var optionsAccessor = moqOptionsAccessor.Object;
-
-            var commandClient = new TelloCommandClient(optionsAccessor, connectClient);
             string result = commandClient.ExecuteCommand("testCommand");
 
             Assert.That(result, Is.EqualTo("ok"));
@@ -54,10 +48,6 @@ namespace TelloSDK.Tests
         [Test]
         public void IsInCommandModeTest()
         {
-            var connectClient = moqConnectClient.Object;
-            var optionsAccessor = moqOptionsAccessor.Object;
-
-            var commandClient = new TelloCommandClient(optionsAccessor, connectClient);
             bool result = commandClient.IsInCommandMode();
 
             Assert.That(result, Is.False);
@@ -66,10 +56,6 @@ namespace TelloSDK.Tests
         [Test]
         public void InitializeCommandSDKTest()
         {
-            var connectClient = moqConnectClient.Object;
-            var optionsAccessor = moqOptionsAccessor.Object;
-
-            var commandClient = new TelloCommandClient(optionsAccessor, connectClient);
             bool resultBefore = commandClient.IsInCommandMode();
             TelloActionResult result = commandClient.InitializeCommandSDK();
             bool resultAfter = commandClient.IsInCommandMode();
@@ -84,10 +70,6 @@ namespace TelloSDK.Tests
         [Test]
         public void DisconnectCommandSDKTest()
         {
-            var connectClient = moqConnectClient.Object;
-            var optionsAccessor = moqOptionsAccessor.Object;
-
-            var commandClient = new TelloCommandClient(optionsAccessor, connectClient);
             commandClient.InitializeCommandSDK();
             bool resultBefore = commandClient.IsInCommandMode();
             commandClient.DisconnectCommandSDK();

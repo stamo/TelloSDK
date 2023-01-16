@@ -913,7 +913,7 @@
             <param name="y2">Position Y, range(20, 500)</param>
             <param name="z2">Position Z, range(20, 500)</param>
             <param name="speed">Speed in (cm/s), range(10, 60)</param>
-            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+            <remarks>“x”, “y”, and “z” values can’t be equal to 20 simultaneously</remarks>
         </member>
         <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateDown(System.Int32)">
             <summary>
@@ -937,7 +937,7 @@
             <param name="y">Position Y, range(20, 500)</param>
             <param name="z">Position Z, range(20, 500)</param>
             <param name="speed">Speed in (cm/s), range(10, 100)</param>
-            <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+            <remarks>“x”, “y”, and “z” values can’t be equal to 20 simultaneously</remarks>
         </member>
         <member name="M:TelloSDK.Pilot.Services.TelloValidationService.ValidateLeft(System.Int32)">
             <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using TelloSDK.Infrastructure.Constants;
 using TelloSDK.Models;
 using TelloSDK.Pilot.Contracts;
 using static TelloSDK.Pilot.Constants.TelloSDKCommands;
@@ -39,7 +40,7 @@ namespace TelloSDK.Pilot.Services
         /// <param name="y2">Position Y, range(20, 500)</param>
         /// <param name="z2">Position Z, range(20, 500)</param>
         /// <param name="speed">Speed in (cm/s), range(10, 60)</param>
-        /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        /// <remarks>“x”, “y”, and “z” values can’t be equal to 20 simultaneously</remarks>
         public TelloActionResult ValidateCurve(int x1, int y1, int z1, int x2, int y2, int z2, int speed)
         {
             var result = CreateResult(true);
@@ -64,18 +65,14 @@ namespace TelloSDK.Pilot.Services
                 sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, 20, 500));
             };
 
-            if (speed > 100 || speed < 10)
+            if (speed > 60 || speed < 10)
             {
                 result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
+                sb.AppendLine(string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 60));
             };
 
-            if (((x1 > -20 && x1 < 20) &&
-                (y1 > -20 && y1 < 20) &&
-                (z1 > -20 && z1 < 20)) ||
-                ((x2 > -20 && x2 < 20) &&
-                (y2 > -20 && y2 < 20) &&
-                (z2 > -20 && z2 < 20)))
+            if ((x1 == 20 && y1 == 20 && z1 == 20) ||
+                (x2 == 20 && y2 == 20 && z2 == 20))
             {
                 result.Succeeded = false;
                 sb.AppendLine(CommandsErrorMessages.InvalidDimensions);
@@ -84,6 +81,10 @@ namespace TelloSDK.Pilot.Services
             if (result.Succeeded == false)
             {
                 result.Message = sb.ToString();
+            }
+            else
+            {
+                result.Message = TelloResponse.Success;
             }
 
             return result;
@@ -132,7 +133,7 @@ namespace TelloSDK.Pilot.Services
         /// <param name="y">Position Y, range(20, 500)</param>
         /// <param name="z">Position Z, range(20, 500)</param>
         /// <param name="speed">Speed in (cm/s), range(10, 100)</param>
-        /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
+        /// <remarks>“x”, “y”, and “z” values can’t be equal to 20 simultaneously</remarks>
         public TelloActionResult ValidateGo(int x, int y, int z, int speed)
         {
             var result = CreateResult(true);
@@ -163,9 +164,7 @@ namespace TelloSDK.Pilot.Services
                 sb.AppendLine(string.Format(CommandsErrorMessages.SpeedOutOfRange, 10, 100));
             };
 
-            if ((x > -20 && x < 20) &&
-                (y > -20 && y < 20) &&
-                (z > -20 && z < 20))
+            if (x == 20 && y == 20 && z == 20)
             {
                 result.Succeeded = false;
                 sb.AppendLine(CommandsErrorMessages.InvalidDimensions);
@@ -174,6 +173,10 @@ namespace TelloSDK.Pilot.Services
             if (result.Succeeded == false)
             {
                 result.Message = sb.ToString();
+            }
+            else
+            {
+                result.Message = TelloResponse.Success;
             }
 
             return result;
@@ -296,7 +299,7 @@ namespace TelloSDK.Pilot.Services
             return new TelloActionResult()
             {
                 Succeeded = forSuccess,
-                Message = forSuccess ? "OK" : "ERROR"
+                Message = forSuccess ? TelloResponse.Success : TelloResponse.Failure,
             };
         }
     }

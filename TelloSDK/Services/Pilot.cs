@@ -433,7 +433,7 @@ namespace TelloSDK.Services
             return new TelloActionResult()
             {
                 Succeeded = forSuccess,
-                Message = forSuccess ? "OK" : "ERROR"
+                Message = forSuccess ? TelloResponse.Success : TelloResponse.Failure
             };
         }
 
