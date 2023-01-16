@@ -32,12 +32,12 @@ namespace TelloSDK.Pilot.Services
         /// Validates both Positions and speed
         /// coordinates at {speed} (cm/s)
         /// </summary>
-        /// <param name="x1">Position X, range(-500, 500)</param>
-        /// <param name="y1">Position Y, range(-500, 500)</param>
-        /// <param name="z1">Position Z, range(-500, 500)</param>
-        /// <param name="x2">Position X, range(-500, 500)</param>
-        /// <param name="y2">Position Y, range(-500, 500)</param>
-        /// <param name="z2">Position Z, range(-500, 500)</param>
+        /// <param name="x1">Position X, range(20, 500)</param>
+        /// <param name="y1">Position Y, range(20, 500)</param>
+        /// <param name="z1">Position Z, range(20, 500)</param>
+        /// <param name="x2">Position X, range(20, 500)</param>
+        /// <param name="y2">Position Y, range(20, 500)</param>
+        /// <param name="z2">Position Z, range(20, 500)</param>
         /// <param name="speed">Speed in (cm/s), range(10, 60)</param>
         /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
         public TelloActionResult ValidateCurve(int x1, int y1, int z1, int x2, int y2, int z2, int speed)
@@ -46,22 +46,22 @@ namespace TelloSDK.Pilot.Services
             result.Message = string.Empty;
             StringBuilder sb = new StringBuilder();
 
-            if (x1 > 500 || x1 < -500 || x2 > 500 || x2 < -500)
+            if (x1 > 500 || x1 < 20 || x2 > 500 || x2 < 20)
             {
                 result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, -500, 500));
+                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, 20, 500));
             };
 
-            if (y1 > 500 || y1 < -500 || y2 > 500 || y2 < -500)
+            if (y1 > 500 || y1 < 20 || y2 > 500 || y2 < 20)
             {
                 result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, -500, 500));
+                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, 20, 500));
             };
 
-            if (z1 > 500 || z1 < -500 || z2 > 500 || z2 < -500)
+            if (z1 > 500 || z1 < 20 || z2 > 500 || z2 < 20)
             {
                 result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, -500, 500));
+                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, 20, 500));
             };
 
             if (speed > 100 || speed < 10)
@@ -128,9 +128,9 @@ namespace TelloSDK.Pilot.Services
         /// <summary>
         /// Validates Position and speed
         /// </summary>
-        /// <param name="x">Position X, range(-500, 500)</param>
-        /// <param name="y">Position Y, range(-500, 500)</param>
-        /// <param name="z">Position Z, range(-500, 500)</param>
+        /// <param name="x">Position X, range(20, 500)</param>
+        /// <param name="y">Position Y, range(20, 500)</param>
+        /// <param name="z">Position Z, range(20, 500)</param>
         /// <param name="speed">Speed in (cm/s), range(10, 100)</param>
         /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
         public TelloActionResult ValidateGo(int x, int y, int z, int speed)
@@ -139,22 +139,22 @@ namespace TelloSDK.Pilot.Services
             result.Message = string.Empty;
             StringBuilder sb = new StringBuilder();
 
-            if (x > 500 || x < -500)
+            if (x > 500 || x < 20)
             {
                 result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, -500, 500));
+                sb.AppendLine(string.Format(CommandsErrorMessages.XDimensionOutOfRange, 20, 500));
             };
 
-            if (y > 500 || y < -500)
+            if (y > 500 || y < 20)
             {
                 result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, -500, 500));
+                sb.AppendLine(string.Format(CommandsErrorMessages.YDimensionOutOfRange, 20, 500));
             };
 
-            if (z > 500 || z < -500)
+            if (z > 500 || z < 20)
             {
                 result.Succeeded = false;
-                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, -500, 500));
+                sb.AppendLine(string.Format(CommandsErrorMessages.ZDimensionOutOfRange, 20, 500));
             };
 
             if (speed > 100 || speed < 10)

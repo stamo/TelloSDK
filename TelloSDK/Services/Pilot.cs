@@ -57,12 +57,12 @@ namespace TelloSDK.Services
         /// Fly at a curve according to the two given 
         /// coordinates at {speed} (cm/s)
         /// </summary>
-        /// <param name="x1">Position X, range(-500, 500)</param>
-        /// <param name="y1">Position Y, range(-500, 500)</param>
-        /// <param name="z1">Position Z, range(-500, 500)</param>
-        /// <param name="x2">Position X, range(-500, 500)</param>
-        /// <param name="y2">Position Y, range(-500, 500)</param>
-        /// <param name="z2">Position Z, range(-500, 500)</param>
+        /// <param name="x1">Position X, range(20, 500)</param>
+        /// <param name="y1">Position Y, range(20, 500)</param>
+        /// <param name="z1">Position Z, range(20, 500)</param>
+        /// <param name="x2">Position X, range(20, 500)</param>
+        /// <param name="y2">Position Y, range(20, 500)</param>
+        /// <param name="z2">Position Z, range(20, 500)</param>
         /// <param name="speed">Speed in (cm/s), range(10, 60)</param>
         /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
@@ -219,9 +219,9 @@ namespace TelloSDK.Services
         /// <summary>
         /// Fly to {x} {y} {z} at {speed} (cm/s)
         /// </summary>
-        /// <param name="x">Position X, range(-500, 500)</param>
-        /// <param name="y">Position Y, range(-500, 500)</param>
-        /// <param name="z">Position Z, range(-500, 500)</param>
+        /// <param name="x">Position X, range(20, 500)</param>
+        /// <param name="y">Position Y, range(20, 500)</param>
+        /// <param name="z">Position Z, range(20, 500)</param>
         /// <param name="speed">Speed in (cm/s), range(10, 100)</param>
         /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
         /// <returns>OK / ERROR / INVALID PARAMETER</returns>
