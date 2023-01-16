@@ -780,11 +780,12 @@
             Indicates whether drone is in SDK mode 
             </summary>
         </member>
-        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{TelloSDK.Infrastructure.Models.TelloOptions})">
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{TelloSDK.Infrastructure.Models.TelloOptions},System.Net.Sockets.UdpClient)">
             <summary>
             Initializes Tello Pilot
             </summary>
             <param name="optionsAccessor">Tello pilot options accessor</param>
+            <param name="_client">UDP Client to comunicate with drone</param>
         </member>
         <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.ExecuteCommand(System.String)">
             <summary>
