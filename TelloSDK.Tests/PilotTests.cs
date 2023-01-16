@@ -556,6 +556,348 @@ namespace TelloSDK.Tests
             Assert.That(result.Message, Is.EqualTo("stop"));
         }
 
+        [Test]
+        public void CurveTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.IsInRange(20, 500, Range.Inclusive),
+                    It.IsInRange(20, 500, Range.Inclusive),
+                    It.IsInRange(20, 500, Range.Inclusive),
+                    It.IsInRange(20, 500, Range.Inclusive),
+                    It.IsInRange(20, 500, Range.Inclusive),
+                    It.IsInRange(20, 500, Range.Inclusive),
+                    It.IsInRange(10, 100, Range.Inclusive)))
+                .Returns(okResult);
+            var validationService = moqValidationService.Object;
 
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.Curve(100, 100, 100, 100, 100, 100, 50);
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("curve 100 100 100 100 100 100 50"));
+        }
+
+        [Test]
+        public void CurveLimitsX1Test()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.Is<int>(x => x < 20 || x > 500),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.Curve(600, 100, 100, 100, 100, 100, 50);
+            var resultLow = pilot.Curve(-30, 100, 100, 100, 100, 100, 50);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void CurveLimitsX2Test()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.Is<int>(x => x < 20 || x > 500),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.Curve(100, 100, 100, 600, 100, 100, 50);
+            var resultLow = pilot.Curve(100, 100, 100, -30, 100, 100, 50);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void CurveLimitsY1Test()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.IsAny<int>(),
+                    It.Is<int>(x => x < 20 || x > 500),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.Curve(100, 600, 100, 100, 100, 100, 50);
+            var resultLow = pilot.Curve(100, -30, 100, 100, 100, 100, 50);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void CurveLimitsY2Test()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.Is<int>(x => x < 20 || x > 500),
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.Curve(100, 100, 100, 100, 600, 100, 50);
+            var resultLow = pilot.Curve(100, 100, 100, 100, -30, 100, 50);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void CurveLimitsZ1Test()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.Is<int>(x => x < 20 || x > 500),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>()))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.Curve(100, 100, 600, 100, 100, 100, 50);
+            var resultLow = pilot.Curve(100, 100, -30, 100, 100, 100, 50);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void CurveLimitsZ2Test()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.Is<int>(x => x < 20 || x > 500),
+                    It.IsAny<int>()))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.Curve(100, 100, 100, 100, 100, 600, 50);
+            var resultLow = pilot.Curve(100, 100, 100, 100, 100, -30, 50);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void CurveLimitsSpeedTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateCurve(
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.IsAny<int>(),
+                    It.Is<int>(x => x < 10 || x > 100)))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.Curve(100, 100, 100, 100, 100, 100, 150);
+            var resultLow = pilot.Curve(100, 100, 100, 100, 100, 100, -50);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void SetSpeedTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateSetSpeed(It.IsInRange(10, 100, Range.Inclusive)))
+                .Returns(okResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.SetSpeed(90);
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("speed 90"));
+        }
+
+        [Test]
+        public void SetSpeedLimitsTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            moqValidationService
+                .Setup(v => v.ValidateSetSpeed(It.Is<int>(x => x < 10 || x > 100)))
+                .Returns(errorResult);
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var resultHigh = pilot.SetSpeed(600);
+            var resultLow = pilot.SetSpeed(-30);
+
+            Assert.That(resultHigh.Succeeded == false);
+            Assert.That(resultHigh.Message, Is.EqualTo("error"));
+            Assert.That(resultLow.Succeeded == false);
+            Assert.That(resultLow.Message, Is.EqualTo("error"));
+        }
+
+        [Test]
+        public void SetWiFiTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.SetWiFi("ssid", "pass");
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("wifi ssid pass"));
+        }
+
+        [Test]
+        public void SetAccessPointTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.SetAccessPoint("ssid", "pass");
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("ap ssid pass"));
+        }
+
+        [Test]
+        public void GetSpeedTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.GetSpeed();
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("speed?"));
+        }
+
+        [Test]
+        public void GetWiFiTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.GetWiFi();
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("wifi?"));
+        }
+
+        [Test]
+        public void GetBatteryTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.GetBattery();
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("battery?"));
+        }
+
+        [Test]
+        public void GetTimeTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.GetTime();
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("time?"));
+        }
+
+        [Test]
+        public void GetSdkTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.GetSdk();
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("sdk?"));
+        }
+
+        [Test]
+        public void GetSerialNumberTest()
+        {
+            var commandClient = moqCommandClient.Object;
+            var validationService = moqValidationService.Object;
+
+            IPilot pilot = new Pilot(commandClient, validationService);
+            var result = pilot.GetSerialNumber();
+
+            Assert.That(result.Succeeded);
+            Assert.That(result.Message, Is.EqualTo("sn?"));
+        }
     }
 }
