@@ -44,6 +44,14 @@ namespace TelloSDK.Pilot.Services
         }
 
         /// <summary>
+        /// Returns count of prepared commands
+        /// </summary>
+        public int Count 
+        { 
+            get => commands.Count; 
+        }
+
+        /// <summary>
         /// Fly backward for {distance} cm
         /// </summary>
         /// <param name="distance">Distance in centimeters
@@ -344,6 +352,31 @@ namespace TelloSDK.Pilot.Services
             }
 
             return this;
+        }
+
+        /// <summary>
+        /// Returns list of prepared commands
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < commands.Count; i++)
+            {
+                sb.Append($"{i + 1}. ");
+                
+                if (commands[i].Parameters == null)
+                {
+                    sb.AppendLine(commands[i].Command);
+                }
+                else
+                {
+                    sb.AppendLine(string.Format(commands[i].Command, commands[i].Parameters));
+                }
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>

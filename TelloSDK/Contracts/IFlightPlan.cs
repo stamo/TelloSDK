@@ -134,5 +134,10 @@ namespace TelloSDK.Pilot.Contracts
         /// <param name="speed">Speed in (cm/s), range(10, 60)</param>
         /// <remarks>“x”, “y”, and “z” values can’t be set between - 20 and 20 simultaneously</remarks>
         IFlightPlan Curve(int x1, int y1, int z1, int x2, int y2, int z2, int speed);
+
+        /// <summary>
+        /// Returns count of prepared commands
+        /// </summary>
+        public int Count { get; }
     }
 }
