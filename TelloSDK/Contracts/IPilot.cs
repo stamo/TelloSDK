@@ -1,4 +1,5 @@
-﻿using TelloSDK.Enumerations;
+﻿using System;
+using TelloSDK.Enumerations;
 using TelloSDK.Models;
 
 namespace TelloSDK.Contracts
@@ -6,7 +7,7 @@ namespace TelloSDK.Contracts
     /// <summary>
     /// Tello pilot
     /// </summary>
-    public interface IPilot
+    public interface IPilot : IDisposable
     {
         /// <summary>
         /// Prepare drone for flight

@@ -231,10 +231,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Execute">
+        <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.Execute(System.Action{System.String})">
             <summary>
             Executes flight plan
             </summary>
+            <param name="logger">Flight plan logger</param>
         </member>
         <member name="M:TelloSDK.Pilot.Contracts.IFlightPlan.TakeOff">
             <summary>
@@ -644,7 +645,7 @@
             Stop motors immediately
             </summary>
         </member>
-        <member name="M:TelloSDK.Pilot.Services.FlightPlan.Execute">
+        <member name="M:TelloSDK.Pilot.Services.FlightPlan.Execute(System.Action{System.String})">
             <summary>
             Executes flight plan
             </summary>
@@ -753,6 +754,11 @@
             <param name="validationMethod">Validation method name</param>
             <param name="parameters">Validation method parameters</param>
         </member>
+        <member name="M:TelloSDK.Pilot.Services.FlightPlan.Dispose">
+            <summary>
+            Dispose Flight Plan
+            </summary>
+        </member>
         <member name="T:TelloSDK.Pilot.Services.REPLService">
             <summary>
             Service to use Tello REPL interface
@@ -799,7 +805,7 @@
             </summary>
             <param name="name">Command name</param>
             <param name="method">Method name</param>
-            <param name="paramsCount">Number of parameters</param>
+            <param name="typesOfParameters">Type of parameters</param>
         </member>
         <member name="T:TelloSDK.Pilot.Services.TelloCommandClient">
             <summary>
@@ -856,6 +862,11 @@
         <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.DisconnectCommandSDK">
             <summary>
             Disposes SDK client
+            </summary>
+        </member>
+        <member name="M:TelloSDK.Pilot.Services.TelloCommandClient.Dispose">
+            <summary>
+            Dispose command client
             </summary>
         </member>
         <member name="T:TelloSDK.Pilot.Services.TelloConnectClient">
@@ -1492,6 +1503,11 @@
             </summary>
             <param name="action">Action to execute</param>
             <returns></returns>
+        </member>
+        <member name="M:TelloSDK.Services.Pilot.Dispose">
+            <summary>
+            Dispose Pilot
+            </summary>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.TelloSDKPilotServiceCollectionExtension">
             <summary>

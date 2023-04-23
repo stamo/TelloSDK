@@ -1,9 +1,11 @@
-﻿namespace TelloSDK.Pilot.Contracts
+﻿using System;
+
+namespace TelloSDK.Pilot.Contracts
 {
     /// <summary>
     /// Service to use Tello REPL interface
     /// </summary>
-    public interface IREPLService
+    public interface IREPLService : IDisposable
     {
         /// <summary>
         /// REPL command executor

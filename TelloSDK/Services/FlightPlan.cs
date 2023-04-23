@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using TelloSDK.Enumerations;
@@ -13,7 +14,7 @@ namespace TelloSDK.Pilot.Services
     /// <summary>
     /// Flight plan
     /// </summary>
-    public class FlightPlan : IFlightPlan
+    public class FlightPlan : IFlightPlan, IDisposable
     {
         /// <summary>
         /// Tello SDK Validation service
@@ -119,13 +120,15 @@ namespace TelloSDK.Pilot.Services
         /// <summary>
         /// Executes flight plan
         /// </summary>
-        public void Execute()
+        public void Execute(Action<string> logger)
         {
             commandClient.InitializeCommandSDK();
 
             foreach (var action in commands)
             {
-                commandClient.ExecuteCommand(action.Command);
+                logger($"Command: {action.Command}");
+                string response = commandClient.ExecuteCommand(action.Command);
+                logger($"Result: {response}\n");
             }
 
             commands.Clear();
@@ -393,6 +396,14 @@ namespace TelloSDK.Pilot.Services
                 ValidationMethod = validationMethod,
                 Parameters = parameters
             });
+        }
+
+        /// <summary>
+        /// Dispose Flight Plan
+        /// </summary>
+        public void Dispose()
+        {
+            commandClient.DisconnectCommandSDK();
         }
     }
 }

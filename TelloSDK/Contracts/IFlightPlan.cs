@@ -1,11 +1,12 @@
-﻿using TelloSDK.Enumerations;
+﻿using System;
+using TelloSDK.Enumerations;
 
 namespace TelloSDK.Pilot.Contracts
 {
     /// <summary>
     /// Flight plan
     /// </summary>
-    public interface IFlightPlan
+    public interface IFlightPlan : IDisposable
     {
         /// <summary>
         /// Validates flight plan
@@ -16,7 +17,8 @@ namespace TelloSDK.Pilot.Contracts
         /// <summary>
         /// Executes flight plan
         /// </summary>
-        void Execute();
+        /// <param name="logger">Flight plan logger</param>
+        void Execute(Action<string> logger);
 
         /// <summary>
         /// Auto takeoff

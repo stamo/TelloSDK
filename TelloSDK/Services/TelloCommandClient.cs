@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -123,6 +124,17 @@ namespace TelloSDK.Pilot.Services
             isInCommandMode = false;
             client.Close();
             client.Dispose();
+        }
+
+        /// <summary>
+        /// Dispose command client
+        /// </summary>
+        public void Dispose()
+        {
+            if (isInCommandMode)
+            {
+                DisconnectCommandSDK();
+            }
         }
     }
 }

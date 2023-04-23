@@ -467,5 +467,13 @@ namespace TelloSDK.Services
 
             return result;
         }
+
+        /// <summary>
+        /// Dispose Pilot
+        /// </summary>
+        public void Dispose()
+        {
+            commandClient.Dispose();
+        }
     }
 }

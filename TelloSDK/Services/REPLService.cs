@@ -163,7 +163,7 @@ namespace TelloSDK.Pilot.Services
         /// </summary>
         /// <param name="name">Command name</param>
         /// <param name="method">Method name</param>
-        /// <param name="paramsCount">Number of parameters</param>
+        /// <param name="typesOfParameters">Type of parameters</param>
         private void AddCommand(string name, string method, Type[] typesOfParameters)
         {
             if (commands.ContainsKey(name) == false) 
@@ -175,6 +175,11 @@ namespace TelloSDK.Pilot.Services
                     TypesParams = typesOfParameters
                 });
             }
+        }
+
+        public void Dispose()
+        {
+            pilot.Dispose();
         }
     }
 }

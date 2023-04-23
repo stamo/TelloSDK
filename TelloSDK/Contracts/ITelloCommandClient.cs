@@ -1,11 +1,12 @@
-﻿using TelloSDK.Models;
+﻿using System;
+using TelloSDK.Models;
 
 namespace TelloSDK.Pilot.Contracts
 {
     /// <summary>
     /// Tello SDK command executor
     /// </summary>
-    public interface ITelloCommandClient
+    public interface ITelloCommandClient : IDisposable
     {
         /// <summary>
         /// Executes drone command
