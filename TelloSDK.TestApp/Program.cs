@@ -11,7 +11,6 @@ using TelloSDK.Telemetry.Models;
 IServiceProvider provider = new ServiceCollection()
     .AddLogging()
     .AddTelloSDKPilot()
-    //.AddTelloSDKTelemetry()
     .BuildServiceProvider();
 
 // Get Tello SDK services
