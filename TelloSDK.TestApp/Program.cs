@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
-using System.Threading.Channels;
 using TelloSDK.Contracts;
 using TelloSDK.Pilot.Contracts;
 using TelloSDK.Pilot.Exceptions;
-using TelloSDK.Telemetry.Contracts;
-using TelloSDK.Telemetry.Models;
 
 // Building IoC container
 IServiceProvider provider = new ServiceCollection()
@@ -17,7 +13,6 @@ IServiceProvider provider = new ServiceCollection()
 using var flightPlan = provider.GetService<IFlightPlan>();
 using var repl = provider.GetService<IREPLService>();
 using var telloPilot = provider.GetService<IPilot>();
-var telemetryService = provider.GetService<ITelemetryListener>();
 
 //if (flightPlan != null)
 //{
@@ -106,7 +101,7 @@ void TestTelloPilot(IPilot telloPilot)
     result = telloPilot.Forward(100);
     Console.WriteLine(result.Message);
 
-    // Fly forward 100 cm
+    // Turn around
     result = telloPilot.TurnClockwise(360);
     Console.WriteLine(result.Message);
 
